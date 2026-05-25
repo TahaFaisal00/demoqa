@@ -9,7 +9,7 @@ ${BASE_URL}=             https://demoqa.com/
 ${TOKEN}                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IlRhaGEwMCIsInBhc3N3b3JkIjoiVGFoYTIwMDEhISEiLCJpYXQiOjE3Nzk2MzgyNTd9.4AXB6PLXamPZDwow-u3iEdP_qmPTggD3MNymWe3G_rM
 *** Test Cases ***
 GET Books from bookStore - Returns 200
-    [Tags]
+    [Tags]      sanity      api     get        positive        bookstore
     POST Generate a Token for an Account
     ${response}=        GET On Session     deqoma       /BookStore/v1/Books
     Status Should Be    expected_status=200
@@ -18,8 +18,9 @@ GET Books from bookStore - Returns 200
 
 
 
+
 POST a List of Books - Returns 201 with Valid Required Fields
-    [Tags]
+    [Tags]      sanity      api     post        positive        bookstore
     POST Generate a Token for an Account
     &{isbn1}=       Create Dictionary               isbn=9781449325862
     &{isbn2}=       Create Dictionary                isbn=9781449331818
@@ -31,7 +32,7 @@ POST a List of Books - Returns 201 with Valid Required Fields
     Log    message=${response.json()}
 
 POST a List of Books - Returns 401 Unauthorized
-    [Tags]
+    [Tags]      sanity      api     post        negative        bookstore
     &{isbn1}=       Create Dictionary               isbn=9781449325862
     &{isbn2}=       Create Dictionary                isbn=9781449331818
     @{collectionOfIsbns}=       Create List      ${isbn1}         ${isbn2}
@@ -40,14 +41,14 @@ POST a List of Books - Returns 401 Unauthorized
     Log    message=${response.json()}
 
 POST a List of Books - Returns 500 with Missing Required Fields
-    [Tags]      bug         #500 instead of 400         #: Server exposes internal stack trace and file paths in response body — security issue
+    [Tags]      bug      api     post        negative        bookstore      #500 instead of 400  #: Server exposes internal stack trace and file paths in response body — security issue
     POST Generate a Token for an Account
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
     &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
     ${response}=        POST On Session    deqoma       /BookStore/v1/Books     json=${body}        headers=${headers}      expected_status=500
 
 POST a List of Books - Returns 400 with Invalid Required Fields
-    [Tags]
+    [Tags]      sanity      api     post        negative        bookstore
     POST Generate a Token for an Account
     @{collectionOfIsbns}=       Create List      xxxxxxxxxxxxxx
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87             collectionOfIsbns=${collectionOfIsbns}
@@ -56,35 +57,138 @@ POST a List of Books - Returns 400 with Invalid Required Fields
     Log    message=${response.json()}
 
 
-Delete
+
+
+
+
+Delete a List of Books From an Account by User ID - Return 204 with Valid userID
+    [Tags]      bug      api     delete        positive        bookstore     #04 documents a response body that doesn't exist — misleading to any developer reading it
+    POST a List of Books
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
+    Status Should Be    expected_status=204
+
+
+Delete a List of Books That Was Never Created From an Account by User ID - Return 204 with Valid userID
+    [Tags]      bug      api     delete        positive        bookstore          #Inconsistent behavior
+    POST Generate a Token for an Account
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
+    Status Should Be    expected_status=204
+
+
+Delete an Already Deleted List of Books From an Account by User ID - Return 204 with Valid userID
+    [Tags]     bug      api     delete        positive        bookstore              #Inconsistent behavior
+    POST Generate a Token for an Account
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
+    Status Should Be    expected_status=204
+
+Delete a List of Books From an Account by User ID - Return 401 with Invalid userID
+    [Tags]      sanity      api     delete        negative        bookstore
+    POST a List of Books
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{params}=      Create Dictionary           UserId=xxd46axx-b0df-40xx-xxd2-7d7a09d8xxxx
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}      expected_status=401
+    Log    message=${response.json()}
+
+Delete a List of Books From an Account by User ID - Return 401 Unauthorized
+    [Tags]      sanity      api     delete        negative        bookstore
+    POST a List of Books
+    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        expected_status=401
 
 
 
 
 GET a Book Details by ISBN - Returns 200 with Valid ISBN
-    [Tags]
+    [Tags]     sanity      api     get        positive        bookstore
     &{params}=          Create Dictionary           ISBN=9781449325862
     ${response}=        GET On Session   deqoma       /BookStore/v1/Book        params=${params}
     Status Should Be    expected_status=200
     Log    message=${response.json()}
 
-GET a Book Details by ISBN - Returns 200 with Invalid ISBN
-    [Tags]
+GET a Book Details by ISBN - Returns 400 with Invalid ISBN
+    [Tags]     sanity      api     get        neagtive        bookstore
     &{params}=          Create Dictionary           ISBN=xxxxxx
     ${response}=        GET On Session   deqoma       /BookStore/v1/Book        params=${params}        expected_status=400
     Log    message=${response.json()}
 
 GET a Book Details by ISBN - Returns 500 with Missing ISBN
-    [Tags]    bug        #500 instead of 400         #: Server exposes internal stack trace and file paths in response body — security issue
+    [Tags]     bug      api     get        negative        bookstore       #500 instead of 400    #: Server exposes internal stack trace and file paths in response body — security issue
     &{params}=          Create Dictionary
     ${response}=        GET On Session   deqoma       /BookStore/v1/Book        params=${params}        expected_status=500
     Log    message=${response.text}
 
 
-Delete
+
+
+
+
+Delete a Book From a List of Books of an Account - Return 204 with Valid Required Fields
+    [Tags]    bug      api     delete        positive        bookstore     #04 documents a response body that doesn't exist — misleading to any developer reading it
+    POST a List of Books
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}
+    Status Should Be    expected_status=204
+    #Log    message=${response.json()}
+
+
+Delete a Book That Was Never Added to the Collection - Return 400 with Valid Required Fields
+    [Tags]      bug      api     delete        negative        bookstore     # Inconsistent behavior between the two DELETE endpoints + The API returns 400 Bad Request with But 400 means your request is malforme
+    POST Generate a Token for an Account
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=400
+
+
+Delete an ALready Deleted Book From a List of Books of an Account - Return 400 with Valid Required Fields
+    [Tags]    bug      api     delete        negative        bookstore     # Inconsistent behavior between the two DELETE endpoints + The API returns 400 Bad Request with But 400 means your request is malforme
+    POST a List of Books
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=204
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=400
+
+
+
+
+Delete a Book From a List of Books of an Account - Return 401 with Invalid Required Field
+    [Tags]      sanity     api     delete        negative        bookstore
+    POST a List of Books
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{params}=      Create Dictionary           UserId=xxd46axx-b0df-40xx-xxd2-7d7a09d8xxxx
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}      expected_status=401
+    Log    message=${response.json()}
+
+
+Delete a Book From a List of Books of an Account - Return 500 with Missing Required Field
+    [Tags]      bug     api     delete        negative        bookstore        #500 instead of 400         #: Server exposes internal stack trace and file paths in response body — security issue
+    POST a List of Books
+    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
+    &{body}=      Create Dictionary                            userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=500
+    Log    message=${response.text}
+
+
+Delete a Book From a List of Books of an Account - Return 401 Unauthorized
+    [Tags]      sanity     api     delete        negative        bookstore
+    POST a List of Books
+    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
+    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}             expected_status=401
+    Log    message=${response.json()}
+
+
+
+
 
 Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN and Valid Required Fields
-    [Tags]
+    [Tags]      sanity     api     put        positive        bookstore
     POST a List of Books
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87             isbn=9781449337711
     &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
@@ -94,8 +198,8 @@ Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN
     Log    message=${response.json()}
 
 
-Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN and Invalid Required Fields
-    [Tags]
+Update a Book by Replacing it with Another by ISBN - Returns 400 with Valid ISBN and Invalid Required Fields
+    [Tags]      sanity     api     put        negative        bookstore
     POST a List of Books
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87             isbn=xxxxxxxx
     &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
@@ -104,7 +208,7 @@ Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN
     Log    message=${response.json()}
 
 Update a Book by Replacing it with Another by ISBN - Returns 400 with Invalid ISBN and Valid Required Fields
-    [Tags]
+    [Tags]      sanity     api     put        negative        bookstore
     POST a List of Books
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87             isbn=9781449337711
     &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
@@ -114,7 +218,7 @@ Update a Book by Replacing it with Another by ISBN - Returns 400 with Invalid IS
 
 
 Update a Book by Replacing it with Another by ISBN - Returns 500 with Missing ISBN and Valid Required Fields
-    [Tags]      bug         #500 instead of 400         #: Server exposes internal stack trace and file paths in response body — security issue
+    [Tags]      bug     api     put        negative        bookstore       #500 instead of 400  #: Server exposes internal stack trace and file paths in response body — security issue
     POST a List of Books
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87             isbn=9781449337711
     &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
@@ -124,7 +228,7 @@ Update a Book by Replacing it with Another by ISBN - Returns 500 with Missing IS
 
 
 Update a Book by Replacing it with Another by ISBN - Returns 401 Unauthorized
-    [Tags]
+    [Tags]      sanity     api     put        negative        bookstore
     POST a List of Books
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87             isbn=9781449337711
     ${ISBN}=        Set Variable           9781449331818
@@ -132,8 +236,8 @@ Update a Book by Replacing it with Another by ISBN - Returns 401 Unauthorized
     Log    message=${response.json()}
 
 
-Update a Book by Replacing it with Another by ISBN - Returns 200 with Invalid ISBN and ISBN of an Already Existing Book in the Required Fields
-    [Tags]      bug         #it allow duplicating book in the same collection
+Update a Book by Replacing it with Another by ISBN - Returns 200 with ISBN of an Already Existing Book in the Required Fields
+    [Tags]      bug      api     put        positive        bookstore        #it allow duplicating book in the same collection
     POST a List of Books
     &{body}=        Create Dictionary           userId=84d46a79-b0df-4066-acd2-7d7a09d87d87             isbn=9781449325862
     &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
