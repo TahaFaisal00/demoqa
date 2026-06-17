@@ -7,9 +7,9 @@ Enter First Name
     [Arguments]                       ${first_name}
     Type Text                         id=firstname    ${first_name}
 
-Entering Last name
-    [Arguments]                       ${Last_name}
-    Input Text                        xpath=//*[@id='lastname']     ${Last_name}
+Enter Last Name
+    [Arguments]                       ${last_name}
+    Type Text                         id=lastname     ${last_name}
 
 Entering Username
    [Arguments]                        ${Username}
