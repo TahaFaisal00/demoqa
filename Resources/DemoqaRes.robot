@@ -34,6 +34,13 @@ ${INVALID_USERNAME_OR_PASSWORD}                   Invalid username or password!
 
 *** Keywords ***
 
+Click Register And Verify Account Registered
+    [Documentation]     Click register button after filling user details and verify the registeration alert.
+    ${alert}=      Wait For Alert      action=accept       text=User Registered Successfully.
+    Click Register Button
+    Wait For        ${alert}
+
+
 Logging in with Invalid Credentials
     [Arguments]                                  ${CREDENTIALS}
     Go To                                        ${URL}

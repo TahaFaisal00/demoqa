@@ -22,8 +22,6 @@ Enter Password
 Click Register Button
    Click                       id=register
 
-Verify User Registration
-   Alert Should Be Present            User Registered Successfully.
 
 Click Back to Login Button
     Click Element                     xpath=//*[text()='Back to Login']
