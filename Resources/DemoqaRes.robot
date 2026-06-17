@@ -19,10 +19,6 @@ ${DELETE_ME_LAST_NAME}                            Me
 ${DELETE_ME_USERNAME}                             DeleteMe
 ${DELETE_ME_PASSWORD}                             Taha2001!!
 
-${EMPTY_USERNAME_FIELD}                           xpath=//*[@id="userName" and @class="mr-sm-2 is-invalid form-control"]
-${EMPTY_PASSWORD_FIELD}                           xpath=//*[@id="password" and @class="mr-sm-2 is-invalid form-control"]
-${INVALID_USERNAME_OR_PASSWORD}                   Invalid username or password!
-
 &{VALID_ACCOUNT}                                  USERNAME=${MAIN_USERNAME}         PASSWORD=${MAIN_PASSWORD}         TEXT=${MAIN_USERNAME}
 
 &{DELETED_ACCOUNT}                                USERNAME=${DELETE_ME_USERNAME}    PASSWORD=${DELETE_ME_PASSWORD}    ERROR1=${EMPTY}                          ERROR2=${EMPTY}                    ERROR_TEXT=${INVALID_USERNAME_OR_PASSWORD}

@@ -5,6 +5,17 @@ Library                                 SeleniumLibrary
 ${USER_NAME_LABEL}                      id=userName-label
 ${LOGGED_IN_USER_NAME}                  id=userName-value
 
+
+
+
+
+
+
+
+${EMPTY_USERNAME_FIELD_ERROR}                           css=#userName.is-invalid
+${EMPTY_PASSWORD_FIELD_ERROR}                           css=#password.is-invalid
+${INVALID_USERNAME_OR_PASSWORD_ERROR}                   text="Invalid username or password!"
+
 *** Keywords ***
 Verify that the First Book is in the Collection
     Element Should Be Visible           xpath=//*[text()='Git Pocket Guide']
