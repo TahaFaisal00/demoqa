@@ -12,8 +12,8 @@ Verify Login Page Loaded
    Get Url                                           ${LOGIN_PAGE_URL}
 
 Enter User Name
-   [Arguments]                                       ${username}
-   Type Text                                         ${USER_NAME_FIELD}      ${username}
+   [Arguments]                                       ${user_name}
+   Type Text                                         ${USER_NAME_FIELD}      ${user_name}
 
 Enter Password
    [Arguments]                                       ${password}
