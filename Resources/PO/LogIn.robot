@@ -28,8 +28,6 @@ Click Login
 Click New User Button
    Click                                             ${NEW_USER_BUTTON}
 
-
-
 Error_Message
     [Arguments]                                      ${ERROR1}      ${ERROR2}       ${ERROR_TEXT}
     IF    $ERROR1
@@ -42,9 +40,7 @@ Error_Message
           Wait Until Page Contains                   ${ERROR_TEXT}       10s
     END
 
-Verify Logging in
-   [Arguments]                                       ${Username}
-   Wait Until Page Contains                          ${Username}
+
 
 
 

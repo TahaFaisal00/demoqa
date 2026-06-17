@@ -1,6 +1,10 @@
 *** Settings ***
 Library                                 SeleniumLibrary
 
+*** Variables ***
+${USER_NAME_LABEL}                      id=userName-label
+${LOGGED_IN_USER_NAME}                  id=userName-value
+
 *** Keywords ***
 Verify that the First Book is in the Collection
     Element Should Be Visible           xpath=//*[text()='Git Pocket Guide']

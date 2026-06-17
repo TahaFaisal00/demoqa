@@ -1,6 +1,6 @@
 *** Settings ***
 Library                                           SeleniumLibrary
-
+Library                                           Browser
 Resource                                          Common.robot
 
 Resource                                          PO/ToolsQA.robot
@@ -33,6 +33,14 @@ ${INVALID_USERNAME_OR_PASSWORD}                   Invalid username or password!
 &{SEARCH}                                         EMPTY=${EMPTY}    INVALID=xxxxxxxxxx     BOOKNAME=Git Pocket Guide    AUTHOR=Glenn Block et al.   Publisher=No Starch Press
 
 *** Keywords ***
+
+Verify Logging in
+    [Documentation]     Verify the user is logged in after entering a valid account credentials
+    ...     by asserting the profile username matches
+   [Arguments]                                       ${user_name}
+   Wait For Elements State                           ${USER_NAME_LABEL}          visible
+   Get Text                                          ${LOGGED_IN_USER_NAME}    ==    ${user_name}
+
 
 Click Register And Verify Account Registered
     [Documentation]     Click register button after filling user details and verify the registeration alert.
