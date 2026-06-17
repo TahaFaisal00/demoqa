@@ -30,6 +30,32 @@ ${DELETE_ME_PASSWORD}                             Taha2001!!
 
 *** Keywords ***
 
+Verify Error Message
+    [Documentation]     Verify the error message or locator's element that appear when entering Invalid Credentials
+    [Arguments]                                      ${account}
+    IF    $account.user_name != "" AND $account.password != ""
+        Verify Incorrect Credentials
+    ELSE IF    $account.user_name != "" AND $account.password == ""
+        Verify Password Field Required
+    ELSE IF    $account.user_name == "" AND $account.password != ""
+        Verify User Name Field Required
+    ELSE
+        Verify User Name Field Required
+        Verify Password Field Required
+    END
+
+Verify User Name Field Required
+    [Documentation]     Verify that user name field gets 'is-invalid' state when logging in without user name
+    Wait For Elements State    ${EMPTY_USERNAME_FIELD_ERROR}        visible
+
+Verify Password Field Required
+    [Documentation]     Verify that password field gets 'is-invalid' state when logging in without password
+    Wait For Elements State    ${EMPTY_PASSWORD_FIELD_ERROR}        visible
+
+Verify Incorrect Credentials
+    [Documentation]     Verify the error message that appear when trying to log in with credentials of non existent account
+    Wait For Elements State    ${INVALID_USERNAME_OR_PASSWORD_ERROR}    visible
+
 Verify Logging in
     [Documentation]     Verify the user is logged in after entering a valid account credentials
     ...     by asserting the profile username matches

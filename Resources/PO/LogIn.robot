@@ -28,22 +28,6 @@ Click Login
 Click New User Button
    Click                                             ${NEW_USER_BUTTON}
 
-Error_Message
-    [Arguments]                                      ${ERROR1}      ${ERROR2}       ${ERROR_TEXT}
-    IF    $ERROR1
-          Wait Until Element Is Visible              ${ERROR1}       10s
-    END
-    IF    $ERROR2
-          Wait Until Element Is Visible              ${ERROR2}       10s
-    END
-    IF    $ERROR_TEXT
-          Wait Until Page Contains                   ${ERROR_TEXT}       10s
-    END
-
-
-
-
-
 
 
 
