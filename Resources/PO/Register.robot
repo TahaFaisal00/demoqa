@@ -22,8 +22,7 @@ Enter Password
 Click Register Button
    Click                       id=register
 
-
-Click Back to Login Button
-    Click Element                     xpath=//*[text()='Back to Login']
+Click Back To Login Button
+    Click                     id=gotologin
 
 
