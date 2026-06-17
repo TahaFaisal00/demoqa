@@ -29,7 +29,7 @@ Verify that the Fourth Book is in the Collection
 Click Delete All Books Button
     Click                               ${DELETE_ALL_BOOKS_BUTTON}
 
-Verify Confirm Delete All Books Window
+Verify Delete All Books Confirmation Window Visible
     Wait For Elements State    ${DELETE_ALL_BOOKS_CONFIRMATION_WINDOW}      visible
 
 Confirm Delete All Books
@@ -41,7 +41,8 @@ Click Book Store Link
 Click Go To Book Store Button
     Click                              ${GO_TO_BOOK_STORE_BUTTON}
 
-
+Verify Delete All Books Confirmation Window Closed
+    Wait For Elements State    ${DELETE_ALL_BOOKS_CONFIRMATION_WINDOW}      hidden
 
 Verify That The First Book Is Deleted
     Element Should Not Be Visible       xpath=//*[text()='Git Pocket Guide']
