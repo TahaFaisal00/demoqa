@@ -11,9 +11,9 @@ Enter Last Name
     [Arguments]                       ${last_name}
     Type Text                         id=lastname     ${last_name}
 
-Entering Username
-   [Arguments]                        ${Username}
-   Input Text                         xpath=//*[@id='userName']         ${Username}
+Enter User Name
+   [Arguments]                        ${user_name}
+   Type Text                          id=userName         ${user_name}
 
 Entering Password
    [Arguments]                        ${Password}
