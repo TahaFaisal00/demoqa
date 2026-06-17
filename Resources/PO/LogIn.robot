@@ -1,10 +1,13 @@
 *** Settings ***
-Library                                              SeleniumLibrary
+Library                                              Browser
+
+*** Variables ***
+${LOGIN_PAGE_URL}                                    https://demoqa.com/login
 
 *** Keywords ***
-Verify that Login Page is Loaded
-   Wait Until Page Contains                          Welcome,
-   Wait Until Page Contains                          Login in Book Store
+Verify Login Page Loaded
+   Wait For Elements State                           text="Login"      visible
+   Get Url                                           ${LOGIN_PAGE_URL}
 
 Entering Username
    [Arguments]                                       ${Username}
