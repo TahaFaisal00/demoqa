@@ -12,9 +12,7 @@ ${LOGGED_IN_USER_NAME}                  id=userName-value
 
 
 
-${EMPTY_USERNAME_FIELD_ERROR}                           css=#userName.is-invalid
-${EMPTY_PASSWORD_FIELD_ERROR}                           css=#password.is-invalid
-${INVALID_USERNAME_OR_PASSWORD_ERROR}                   text="Invalid username or password!"
+
 
 *** Keywords ***
 Verify that the First Book is in the Collection
