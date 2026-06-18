@@ -4,6 +4,7 @@ Library                                 String
 *** Variables ***
 ${BOOK_STORE_URL}                       https://demoqa.com/books
 
+${LOGIN_BUTTON_IN_BOOK_STORE}                   id=login
 
 ${BOOK_LOCATOR_BASE}                            css=a[href="{}"]
 ${BOOK_URL_BASE}                                https://demoqa.com{}
@@ -27,6 +28,9 @@ Verify Book Page Loaded
     ${book_url}=            Format String      ${BOOK_URL_BASE}       ${book}
     Get Url                                    ${book_url}
 
+Click Login Button In Book Store
+   Click                                       ${LOGIN_BUTTON_IN_BOOK_STORE}
+
 Click Add To Your Collection button
     Click Element                       xpath=//*[text()='Add To Your Collection']
 
@@ -39,8 +43,7 @@ Navigate to Profile Page
 Verify That Book Was Already Added to Your Collection
     Alert Should Be Present             Book already present in the your collection!
 
-Click the Login Button
-   Click Element                        xpath=//span[text()='Login']
+
 
 Enter the First Book Website
     Click Element                       xpath=//*[text()='http://chimera.labs.oreilly.com/books/1230000000561/index.html']
