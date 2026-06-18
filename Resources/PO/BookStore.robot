@@ -42,8 +42,6 @@ Use Search Bar
 Click Add To Your Collection Button
     Click                                      ${ADD_TO_YOUR_COLLECTION_BUTTON}
 
-Verify That Book Was Added Successfully
-    Alert Should Be Present             Book added to your collection.
 
 Navigate to Profile Page
     Click Element                       xpath=//*[text()='Profile']
