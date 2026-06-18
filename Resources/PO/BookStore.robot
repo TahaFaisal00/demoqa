@@ -1,7 +1,14 @@
 *** Settings ***
-Library                                 SeleniumLibrary
+Library                                 Browser
+
+*** Variables ***
+${BOOK_STORE_URL}                       https://demoqa.com/books
+
 
 *** Keywords ***
+Verify BookStore Page Loaded
+   Get Url                              ${BOOK_STORE_URL}
+
 Click Add To Your Collection button
     Click Element                       xpath=//*[text()='Add To Your Collection']
 
@@ -17,8 +24,6 @@ Navigate to Profile Page
 Verify That Book Was Already Added to Your Collection
     Alert Should Be Present             Book already present in the your collection!
 
-Verify that BookStore Page is Loaded
-   Wait Until Element Is Visible        xpath=//span[text()='Login']
 Click the Login Button
    Click Element                        xpath=//span[text()='Login']
 
