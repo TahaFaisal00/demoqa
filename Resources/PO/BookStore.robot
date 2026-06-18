@@ -74,9 +74,6 @@ Enter the Second Book Website
     Element Should Be Visible           xpath=//*[text()='Learning JavaScript Design Patterns']
     Element Should Be Visible           xpath=//*[@src='/assets/bookimage1-CeLeymOA.jpg']
 
-Using the Search Bar
-    Input Text                          xpath=//*[@id='searchBox']      Learning JavaScript Design Patterns
-    Click Element                       xpath=//*[@id="searchBox-wrapper"]/div[1]/div/button
 
 the 2 Books and Their Images After Searching
     Element Should Not Be Visible       xpath=//*[text()='Git Pocket Guide']
