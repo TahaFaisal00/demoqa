@@ -7,6 +7,7 @@ ${LOGGED_IN_USER_NAME}                  id=userName-value
 
 ${DELETE_ALL_BOOKS_BUTTON}              css=#submit.Delete All Books
 ${LOG_OUT_BUTTON}                       css=#submit.Logout
+${DELETE_ACCOUNT_BUTTON}                css=#submit.Delete Account
 
 ${DELETE_ALL_BOOKS_CONFIRMATION_WINDOW}         id=example-modal-sizes-title-sm
 
@@ -48,6 +49,9 @@ Verify Delete All Books Confirmation Window Closed
 Click Logout Button
     Click                       ${LOG_OUT_BUTTON}
 
+Click Delete Account Button
+    Click                       ${DELETE_ACCOUNT_BUTTON}
+
 Verify That The First Book Is Deleted
     Element Should Not Be Visible       xpath=//*[text()='Git Pocket Guide']
 
@@ -56,8 +60,7 @@ Verify That The First Book Is Deleted
 Verify Logging Out Done Successfully
     Wait Until Page Contains            Login in Book Store
 
-Click Delete Account button
-    Click Element                       xpath=//*[text()='Delete Account']
+
 
 Confirm Deleting the Account
     Wait Until Page Contains            Do you want to delete your account?
