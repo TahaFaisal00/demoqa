@@ -26,7 +26,7 @@ Enter Password
    [Arguments]                                       ${password}
    Type Text                                         ${PASSWORD_FIELD}       ${password}
 
-Click Login
+Click Login In Login Page
    Click                                             ${LOGIN_BUTTON}
 
 Click New User Button
