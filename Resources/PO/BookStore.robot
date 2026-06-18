@@ -50,11 +50,6 @@ Click Profile Page Link
 Click Back To Book Store Button
     Click                                      ${BACK_TO_BOOK_STORE_BUTTON}
 
-Verify That Book Was Already Added to Your Collection
-    Alert Should Be Present             Book already present in the your collection!
-
-
-
 Enter the First Book Website
     Click Element                       xpath=//*[text()='http://chimera.labs.oreilly.com/books/1230000000561/index.html']
     Switch Window                       NEW

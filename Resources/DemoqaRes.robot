@@ -29,6 +29,12 @@ ${DELETE_ME_PASSWORD}                             Taha2001!!
 &{SEARCH}                                         EMPTY=${EMPTY}    INVALID=xxxxxxxxxx     BOOKNAME=Git Pocket Guide    AUTHOR=Glenn Block et al.   Publisher=No Starch Press
 
 *** Keywords ***
+Click Add Book To Collection And Verify Book Already Added
+    [Documentation]     Click Add book to collection button in book details page of an already added book and verify the book already added alert.
+    ${alert}=       Wait For Alert           action=accept      text=Book already present in the your collection!
+    Click Add To Your Collection Button
+    Wait For        ${alert}
+
 Click Add Book To Collection And Verify Book Added
     [Documentation]     Click Add book to collection button in book details page and verify the book added alert.
     ${alert}=       Wait For Alert           action=accept      text=Book added to your collection.
