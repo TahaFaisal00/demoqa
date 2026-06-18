@@ -16,7 +16,8 @@ ${GIT_POCKET_GUIDE_BOOK}                        /books?search=9781449325862
 ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}     /books?search=9781449331818
 ${SPEAKING_JAVASCRIPT_BOOK}                     /books?search=9781449365035
 
-${ADD_TO_YOUR_COLLECTION_BUTTON}                id=addNewRecordButton
+${ADD_TO_YOUR_COLLECTION_BUTTON}                css=#addNewRecordButton.Add To Your Collection
+${BACK_TO_BOOK_STORE_BUTTON}                    css=#addNewRecordButton.Back To Book Store
 
 ${PROFILE_PAGE_LINK}                            css=a[href="/profile"]
 *** Keywords ***
@@ -45,6 +46,9 @@ Click Add To Your Collection Button
 
 Click Profile Page Link
     Click                                      ${PROFILE_PAGE_LINK}
+
+Click Back To Book Store Button
+    Click                                      ${BACK_TO_BOOK_STORE_BUTTON}
 
 Verify That Book Was Already Added to Your Collection
     Alert Should Be Present             Book already present in the your collection!
@@ -88,8 +92,6 @@ Checking a Book Details
     Page Should Contain                 234
     Page Should Contain                 This pocket guide is the perfect
 
-Click Back To Book Store button
-    Click Element                       xpath=//*[text()='Back To Book Store']
 
 Checking a Second Book Details
     Click Element                       xpath=//*[text()='Learning JavaScript Design Patterns']
