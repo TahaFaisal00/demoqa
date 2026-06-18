@@ -4,19 +4,24 @@ Library                                 Browser
 *** Variables ***
 ${BOOK_STORE_URL}                       https://demoqa.com/books
 
+${GIT_POCKET_GUIDE_BOOK}                        css=a[href='/books?search=9781449325862']
+${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}     css=a[href='/books?search=9781449331818']
+${SPEAKING_JAVASCRIPT}                          css=a[href='/books?search=9781449365035']
 
 *** Keywords ***
 Verify BookStore Page Loaded
    Get Url                              ${BOOK_STORE_URL}
+
+Open Book Details Page
+    [Arguments]                                 ${book}
+    Click                                       ${book}
+
 
 Click Add To Your Collection button
     Click Element                       xpath=//*[text()='Add To Your Collection']
 
 Verify That Book Was Added Successfully
     Alert Should Be Present             Book added to your collection.
-
-Click on the Fourth Book
-    Click Element                       xpath=//*[text()='Speaking JavaScript']
 
 Navigate to Profile Page
     Click Element                       xpath=//*[text()='Profile']
@@ -27,17 +32,11 @@ Verify That Book Was Already Added to Your Collection
 Click the Login Button
    Click Element                        xpath=//span[text()='Login']
 
-Click on the First Book
-    Click Element                       xpath=//*[text()='Git Pocket Guide']
-
 Enter the First Book Website
     Click Element                       xpath=//*[text()='http://chimera.labs.oreilly.com/books/1230000000561/index.html']
     Switch Window                       NEW
     Wait Until Page Contains            Build the skills your teams need
     Switch Window                       MAIN
-
-Click on the Second Book
-    Click Element                       xpath=//*[text()='Learning JavaScript Design Patterns']
 
 Enter the Second Book Website
     Click Element                       xpath=//*[text()='http://www.addyosmani.com/resources/essentialjsdesignpatterns/book/']
