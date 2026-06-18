@@ -29,6 +29,15 @@ ${DELETE_ME_PASSWORD}                             Taha2001!!
 &{SEARCH}                                         EMPTY=${EMPTY}    INVALID=xxxxxxxxxx     BOOKNAME=Git Pocket Guide    AUTHOR=Glenn Block et al.   Publisher=No Starch Press
 
 *** Keywords ***
+
+Verify Book Details
+    [Documentation]     Verify book details including ISBN, Sub Title, Author and Publisher in details page.
+    [Arguments]                               ${book}
+    Get Text    id=ISBN-wrapper >> id=userName-value    =   ${book.isbn}
+    Get Text    id=subtitle-wrapper >> id=userName-value    =   ${book.sub_title}
+    Get Text    id=author-wrapper >> id=userName-value    =   ${book.author}
+    Get Text    id=publisher-wrapper >> id=userName-value    =   ${book.publisher}
+
 Click Add Book To Collection And Verify Book Already Added
     [Documentation]     Click Add book to collection button in book details page of an already added book and verify the book already added alert.
     ${alert}=       Wait For Alert           action=accept      text=Book already present in the your collection!

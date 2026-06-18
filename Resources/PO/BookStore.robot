@@ -61,11 +61,6 @@ Verify Book Page Loaded
     ${book_url}=        Format String          ${BOOK_URL_BASE}       ${book}
     Get Url                                    ${book_url}
 
-
-
-
-
-
 Enter the First Book Website
     Click Element                       xpath=//*[text()='http://chimera.labs.oreilly.com/books/1230000000561/index.html']
     Switch Window                       NEW
@@ -89,21 +84,5 @@ the 2 Books and Their Images After Searching
     Element Should Not Be Visible       xpath=//*[@src='/assets/bookimage0-DrW2Lhj5.jpg']
     Element Should Be Visible           xpath=//*[text()='Learning JavaScript Design Patterns']
     Element Should Be Visible           xpath=//*[@src='/assets/bookimage1-CeLeymOA.jpg']
-
-Checking a Book Details
-    Click Element                       xpath=//*[text()='Git Pocket Guide']
-    Wait Until Page Contains            9781449325862
-    Page Should Contain                 Git Pocket Guide
-    Page Should Contain                 Richard E. Silverman
-    Page Should Contain                 234
-    Page Should Contain                 This pocket guide is the perfect
-
-Checking a Second Book Details
-    Click Element                       xpath=//*[text()='Learning JavaScript Design Patterns']
-    Wait Until Page Contains            9781449331818
-    Page Should Contain                 Learning JavaScript Design Patterns
-    Page Should Contain                 Addy Osmani
-    Page Should Contain                 254
-    Page Should Contain                 With Learning JavaScript Design Patterns
 
 
