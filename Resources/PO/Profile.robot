@@ -12,7 +12,7 @@ ${DELETE_ACCOUNT_BUTTON}                css=#submit.Delete Account
 ${DELETE_ALL_BOOKS_CONFIRMATION_WINDOW}        css=#example-modal-sizes-title-sm.Delete All Books
 ${DELETE_ACCOUNT_CONFIRMATION_WINDOW}          css=#example-modal-sizes-title-sm.Delete Account
 
-${DELETE_ALL_BOOKS_CONFIRMATION_OK_BUTTON}      id=closeSmallModal-ok
+${DELETE_CONFIRMATION_WINDOW_OK_BUTTON}      id=closeSmallModal-ok
 
 ${PROFILE_PAGE_URL}                         https://demoqa.com/profile
 
@@ -55,6 +55,10 @@ Click Delete Account Button
 
 Verify Delete Account Confirmation Window Visible
     Wait For Elements State    ${DELETE_ACCOUNT_CONFIRMATION_WINDOW}      visible
+
+Confirm Delete Account
+    Click                    ${DELETE_CONFIRMATION_WINDOW_OK_BUTTON}
+
 
 Verify Delete Account Confirmation Window Closed
     Wait For Elements State    ${DELETE_ACCOUNT_CONFIRMATION_WINDOW}      hidden
