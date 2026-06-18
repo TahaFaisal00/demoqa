@@ -98,14 +98,4 @@ Checking a Second Book Details
     Page Should Contain                 254
     Page Should Contain                 With Learning JavaScript Design Patterns
 
-Click on Login button
-   Wait Until Element Is Visible        xpath=//span[text()='Login']
-   Click Element                        xpath=//span[text()='Login']
-
-   Wait Until Page Contains             Welcome,
-   Wait Until Page Contains             Login in Book Store
-
-
-
-
 
