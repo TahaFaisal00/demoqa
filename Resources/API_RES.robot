@@ -21,7 +21,8 @@ Send Create Account Request
     RETURN          ${response}
 
 Create Account Via API
-    [Documentation]     Create a new account via api using a fresh faker details and used as test setup.
+    [Documentation]     Create a new account via api using a fresh faker details.
+    ...                 Used together with Generate Token Via API as test setup.
     ${account}=     Create Account Details
     VAR          &{TEST_ACCOUNT}      &{account}     scope=TEST
     ${body}=        Build Create Account Body           ${account}
