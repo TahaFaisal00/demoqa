@@ -69,17 +69,3 @@ Get Image Src
     ${src}=     Get Attribute    ${img}       src
     RETURN      ${src}
 
-
-2 Books and Their Images
-    Element Should Be Visible           xpath=//*[text()='Git Pocket Guide']
-    Element Should Be Visible           xpath=//*[@src='/assets/bookimage0-DrW2Lhj5.jpg']
-    Element Should Be Visible           xpath=//*[text()='Learning JavaScript Design Patterns']
-    Element Should Be Visible           xpath=//*[@src='/assets/bookimage1-CeLeymOA.jpg']
-
-the 2 Books and Their Images After Searching
-    Element Should Not Be Visible       xpath=//*[text()='Git Pocket Guide']
-    Element Should Not Be Visible       xpath=//*[@src='/assets/bookimage0-DrW2Lhj5.jpg']
-    Element Should Be Visible           xpath=//*[text()='Learning JavaScript Design Patterns']
-    Element Should Be Visible           xpath=//*[@src='/assets/bookimage1-CeLeymOA.jpg']
-
-
