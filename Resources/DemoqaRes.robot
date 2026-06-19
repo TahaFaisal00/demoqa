@@ -29,6 +29,13 @@ ${DELETE_ME_PASSWORD}                             Taha2001!!
 &{SEARCH}                                         EMPTY=${EMPTY}    INVALID=xxxxxxxxxx     BOOKNAME=Git Pocket Guide    AUTHOR=Glenn Block et al.   Publisher=No Starch Press
 
 *** Keywords ***
+Confirm Delete Book And Verify Book Deleted
+    [Documentation]     Click OK in the book deletion confirmation window and verify book deleted alert.
+    [Arguments]
+    ${alert}=       Wait For Alert    action=accept    text=Confirm Delete.
+    Profile.Confirm Delete
+    Wait For        ${alert}
+
 
 Verify Book In Book Collection
     [Documentation]     Verify added book exists in the book collection in profile page
