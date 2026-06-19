@@ -125,6 +125,12 @@ Click Register And Verify Account Registered
     Click Register Button
     Wait For        ${alert}
 
+Navigate To Book Store
+    [Documentation]     Navigates from main page to book store and verify its page loaded.
+    ToolsQA.Click Book Store Link
+    BookStore.Verify BookStore Page Loaded
+
+
 
 Logging in with Invalid Credentials
     [Arguments]                                  ${CREDENTIALS}
@@ -133,9 +139,6 @@ Logging in with Invalid Credentials
     Navigate to Login Page
     Entering Invalid Credentials                 ${CREDENTIALS}
 
-Navigate to The Book Store Application
-    ToolsQA.Verify that TOOLSQA Website is loaded
-    ToolsQA.Click on Book Store Application
 
 Navigate to Login Page
     BookStore.Verify that BookStore Page is Loaded
