@@ -163,10 +163,6 @@ Logging in with Invalid Credentials
     Entering Invalid Credentials                 ${CREDENTIALS}
 
 
-Navigate to Login Page
-    BookStore.Verify that BookStore Page is Loaded
-    BookStore.Click the Login Button
-
 Entering Invalid Credentials
    [Arguments]                                   ${CREDENTIALS}
    LogIn.Verify that Login Page is Loaded
