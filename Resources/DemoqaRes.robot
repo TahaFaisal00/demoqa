@@ -29,6 +29,14 @@ ${DELETE_ME_PASSWORD}                             Taha2001!!
 &{SEARCH}                                         EMPTY=${EMPTY}    INVALID=xxxxxxxxxx     BOOKNAME=Git Pocket Guide    AUTHOR=Glenn Block et al.   Publisher=No Starch Press
 
 *** Keywords ***
+Verify Book Not In Book Collection
+    [Documentation]     Verify deleted book is removed from the book collection in profile page.
+    [Arguments]                         ${books}
+    FOR    ${book}    IN    @{books}
+        ${book_location}=        Format String      ${BOOK_LOCATOR_BASE}        ${book}
+        Wait For Elements State    ${book_location}     hidden
+    END
+
 Confirm Delete Book And Verify Book Deleted
     [Documentation]     Click OK in the book deletion confirmation window and verify book deleted alert.
     [Arguments]
