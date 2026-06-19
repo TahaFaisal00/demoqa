@@ -29,6 +29,12 @@ ${DELETE_ME_PASSWORD}                             Taha2001!!
 &{SEARCH}                                         EMPTY=${EMPTY}    INVALID=xxxxxxxxxx     BOOKNAME=Git Pocket Guide    AUTHOR=Glenn Block et al.   Publisher=No Starch Press
 
 *** Keywords ***
+Verify Account Logged Out
+    [Documentation]     Verify account logged out after clicking logout button and navigating back to profile page.
+    Verify Login Page Loaded
+    Click Profile Page Link
+    Wait For Elements State    ${NOT_LOGGED_IN_MESSAGE}      visible
+
 Verify Book Not In Book Collection
     [Documentation]     Verify deleted book is removed from the book collection in profile page.
     [Arguments]                         ${books}

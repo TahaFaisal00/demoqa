@@ -8,6 +8,9 @@ ${LOGGED_IN_USER_NAME}                  id=userName-value
 
 ${DELETE_ALL_BOOKS_BUTTON}              css=#submit.Delete All Books
 ${LOG_OUT_BUTTON}                       css=#submit.Logout
+
+${NOT_LOGGED_IN_MESSAGE}                id=notLoggin-label
+
 ${DELETE_ACCOUNT_BUTTON}                css=#submit.Delete Account
 
 ${DELETE_BOOK_BUTTON}                   id="delete-record-{}"
