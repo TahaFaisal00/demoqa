@@ -145,6 +145,15 @@ Navigate From Register Page To Login Page
     Register.Click Back To Login Button
     LogIn.Verify Login Page Loaded
 
+Navigate From Profile Page To Book Store
+    [Documentation]     Navigates from profile page to book store page and verify its page loaded.
+    Profile.Click Book Store Link
+    BookStore.Verify BookStore Page Loaded
+
+Navigate From Book Store To Profile Page
+    [Documentation]     Navigates from store page page to profile page and verify its page loaded.
+    BookStore.Click Profile Page Link
+    Profile.Verify Profile Page Loaded
 
 Logging in with Invalid Credentials
     [Arguments]                                  ${CREDENTIALS}
