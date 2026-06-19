@@ -14,6 +14,7 @@ ${DELETE_BOOK_BUTTON}                   id="delete-record-{}"
 
 ${DELETE_ALL_BOOKS_CONFIRMATION_WINDOW}        css=#example-modal-sizes-title-sm.Delete All Books
 ${DELETE_ACCOUNT_CONFIRMATION_WINDOW}          css=#example-modal-sizes-title-sm.Delete Account
+${DELETE_BOOK_CONFIRMATION_WINDOW}             css=#example-modal-sizes-title-sm.Delete Book
 
 ${DELETE_CONFIRMATION_WINDOW_OK_BUTTON}      id=closeSmallModal-ok
 
@@ -61,6 +62,10 @@ Click Delete Book Button
     [Arguments]     ${book}
     ${book_delete_button}       Format String    ${DELETE_BOOK_BUTTON}  ${book.isbn}
     Click    ${book_delete_button}
+
+Verify Delete Book Confirmation Window Visible
+    Wait For Elements State    ${DELETE_BOOK_CONFIRMATION_WINDOW}       visible
+
 
 Verify That The First Book Is Deleted
     Element Should Not Be Visible       xpath=//*[text()='Git Pocket Guide']
