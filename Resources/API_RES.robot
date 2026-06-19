@@ -48,6 +48,11 @@ Generate Token Via API
     VAR    ${TOKEN}     ${response.json()}[token]       scope=TEST
     RETURN      ${response}
 
+Create Authenticated Account Via API
+    [Documentation]     Create account and it's token. it makes TEST_ACCOUNT, ACCOUNT_ID and TOKEN test variables.
+    ...                 Used as test setup
+    Create Account Via API
+    Generate Token Via API
 
 Build Delete Account Headers
     [Arguments]     ${account_token}
