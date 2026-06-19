@@ -29,6 +29,15 @@ ${DELETE_ME_PASSWORD}                             Taha2001!!
 &{SEARCH}                                         EMPTY=${EMPTY}    INVALID=xxxxxxxxxx     BOOKNAME=Git Pocket Guide    AUTHOR=Glenn Block et al.   Publisher=No Starch Press
 
 *** Keywords ***
+
+Verify Book In Book Collection
+    [Documentation]     Verify added book exists in the book collection in profile page
+    [Arguments]                         ${books}
+    FOR    ${book}    IN    @{books}
+        ${book_location}=        Format String      ${BOOK_LOCATOR_BASE}        ${book}
+        Wait For Elements State    ${book_location}     visible
+    END
+
 Verify Book Image
     [Documentation]     Verify that a book have the position-bound image instead of it's own.
     ...     Documents the image/position bug
