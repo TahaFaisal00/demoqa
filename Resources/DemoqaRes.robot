@@ -165,6 +165,12 @@ Logging In And Verify
     LogIn.Click Login In Login Page
     Verify Logging in       ${account.user_name}
 
+Logging Out And Verify
+    [Documentation]     Logs out from the account page and verify it. after signing out the website takes you to login page
+    ...                the keyword goes back to profile page and verify that account is logged out.
+    Profile.Click Logout Button
+    Verify Account Logged Out
+
 
 Logging in with Invalid Credentials
     [Arguments]                                  ${CREDENTIALS}
@@ -182,10 +188,6 @@ Entering Invalid Credentials
    LogIn.Clicking Login
    LogIn.Error Message                           ${CREDENTIALS.ERROR1}        ${CREDENTIALS.ERROR2}        ${CREDENTIALS.ERROR_TEXT}
 
-
-Logging Out
-    Profile.Click Logout button
-    Profile.Verify Logging Out Done Successfully
 
 Deleting the Account
     Profile.Click Delete Account button
