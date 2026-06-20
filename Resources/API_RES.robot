@@ -12,7 +12,10 @@ Open Session
 Create Account Details
     ${fake_user_name}=       FakerLibrary.User Name
     ${fake_password}=        FakerLibrary.Password
+    ${fake_first_name}=      FakerLibrary.First Name Male
+    ${fake_last_name}=       FakerLibrary.Last Name Male
     &{TEST_ACCOUNT}=      Create Dictionary        user_name=${fake_user_name}      password=${fake_password}
+    ...                   first_name=${fake_first_name}           last_name=${fake_last_name}
     RETURN      &{TEST_ACCOUNT}
 
 Build Create Account Body
