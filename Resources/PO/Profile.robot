@@ -43,9 +43,6 @@ Verify Delete All Books Confirmation Window Visible
 Click Book Store Link
     Click                             ${BOOK_STORE_LINK}
 
-Click Go To Book Store Button
-    Click                              ${GO_TO_BOOK_STORE_BUTTON}
-
 Verify Delete All Books Confirmation Window Closed
     Wait For Elements State    ${DELETE_ALL_BOOKS_CONFIRMATION_WINDOW}      hidden
 

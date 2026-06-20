@@ -40,9 +40,6 @@ Verify Book Page Loaded
     ${book_url}=            Format String      ${BOOK_URL_BASE}       ${book}
     Get Url                                    ${book_url}
 
-Click Login Button In Book Store
-   Click                                       ${LOGIN_BUTTON_IN_BOOK_STORE}
-
 Use Search Bar
     [Arguments]                                ${search}
     Type Text                                  ${SEARCH_BAR}        ${search}
@@ -52,9 +49,6 @@ Click Add To Your Collection Button
 
 Click Profile Page Link
     Click                                      ${PROFILE_PAGE_LINK}
-
-Click Back To Book Store Button
-    Click                                      ${BACK_TO_BOOK_STORE_BUTTON}
 
 Verify Book Page Loaded
     [Arguments]                                ${book}

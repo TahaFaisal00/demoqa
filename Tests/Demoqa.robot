@@ -21,15 +21,18 @@ Log In And Log out
     [Documentation]     Creates a fresh account, Logs in, Then logs out and delete the account.
     [Tags]                                                           functional       ui     positive        account
     [Setup]     API_RES.Create Authenticated Account Via API
+    Navigate To Book Store Application
     DemoqaRes.Logging In And Verify                                  ${TEST_ACCOUNT}
     DemoqaRes.Logging Out And Verify
     [Teardown]      API_RES.Delete Account Via API
 
-Delete the Account
+Register And Delete Account
+    [Documentation]
     [Tags]                                                           bug     ui     positive     account
-    DemoqaRes.Navigating to Profile and Creating a New Account       ${DELETE_ME_FIRST_NAME}    ${DELETE_ME_LAST_NAME}   ${DELETE_ME_USERNAME}    ${DELETE_ME_PASSWORD}
-    DemoqaRes.Logging in                                             ${DELETE_ME_USERNAME}       ${DELETE_ME_PASSWORD}
-    DemoqaRes.Deleting the Account
+    Navigate To Book Store Application
+    Creating New Account                                             ${TEST_ACCOUNT}
+    Navigate From Register Page To Login Page
+
 
 User Should Be Logged Out Automatically After Account Deletion
     [Tags]                                                           bug       ui     positive       account

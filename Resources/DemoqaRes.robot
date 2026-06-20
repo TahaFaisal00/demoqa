@@ -132,14 +132,14 @@ Click Register And Verify Account Registered
     Click Register Button
     Wait For        ${alert}
 
-Navigate To Book Store
-    [Documentation]     Navigates from main page to book store and verify its page loaded.
+Navigate To Book Store Application
+    [Documentation]     Navigates from main page to book store application and verify its page loaded.
     ToolsQA.Click Book Store Link
     BookStore.Verify BookStore Page Loaded
 
-Navigate From Book Store To Login Page
-    [Documentation]     Navigates from book store to login page and verify its page loaded.
-    BookStore.Click Login Button In Book Store
+Navigate To Login Page
+    [Documentation]     Navigates to login page and verify its page loaded.
+    Profile.Click Login Link
     LogIn.Verify Login Page Loaded
 
 Navigate From Login Page To Register Page
@@ -147,31 +147,20 @@ Navigate From Login Page To Register Page
     LogIn.Click New User Button
     Register.Verify Register Page Loaded
 
-Navigate From Register Page To Login Page
-    [Documentation]     Navigates from register page to login page and verify its page loaded.
-    Register.Click Back To Login Button
-    LogIn.Verify Login Page Loaded
-
-Navigate From Profile Page To Book Store
-    [Documentation]     Navigates from profile page to book store page and verify its page loaded.
+Navigate To Book Store
+    [Documentation]     Navigates to book store page and verify its page loaded.
     Profile.Click Book Store Link
     BookStore.Verify BookStore Page Loaded
 
-Navigate From Book Store To Profile Page
-    [Documentation]     Navigates from store page page to profile page and verify its page loaded.
+Navigate To Profile Page
+    [Documentation]     Navigates to profile page and verify its page loaded.
     BookStore.Click Profile Page Link
     Profile.Verify Profile Page Loaded
-
-Navigate From Profile Page To Login Page
-    [Documentation]     Navigates from profile page to login page and verify its page loaded.
-    Profile.Click Login Link
-    LogIn.Verify Login Page Loaded
 
 Logging In And Verify
     [Documentation]     Navigate to login page and enter valid credentials and log in and verify it.
     [Arguments]     ${account}
-    Navigate To Book Store
-    Navigate From Book Store To Login Page
+    Navigate To Login Page
     LogIn.Enter User Name    ${account.user_name}
     LogIn.Enter Password    ${account.password}
     LogIn.Click Login In Login Page
@@ -188,8 +177,7 @@ Creating New Account
     [Arguments]         ${account}
     ${test_account}=            API_RES.Create Account Details
     VAR        &{TEST_ACCOUNT}        &{test_account}       scope=TEST
-    Navigate To Book Store
-    Navigate From Book Store To Login Page
+    Navigate To Login Page
     Navigate From Login Page To Register Page
     Register.Enter First Name    ${account.first_name}
     Register.Enter Last Name    ${account.last_name}

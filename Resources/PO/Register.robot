@@ -35,7 +35,4 @@ Enter Password
 Click Register Button
    Click                             ${REGISTER_BUTTON}
 
-Click Back To Login Button
-    Click                            ${BACK_TO_LOGIN_BUTTON}
-
 
