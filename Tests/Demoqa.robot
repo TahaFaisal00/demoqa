@@ -27,11 +27,19 @@ Log In And Log out
     [Teardown]      API_RES.Delete Account Via API
 
 Register And Delete Account
-    [Documentation]
-    [Tags]                                                           bug     ui     positive     account
-    Navigate To Book Store Application
-    Creating New Account                                             ${TEST_ACCOUNT}
-    Navigate From Register Page To Login Page
+    [Documentation]     Create new account using freshly created data then delete the account. Reload the page after
+    ...                 deleting it to bypass the unresponsive frontend bug then return for login page to log out
+    ...                 because of another bug: you won't be logged out after deleting your account. Then
+    ...                 Verify your account was deleted by trying to log in by using the same Credentials.
+    [Tags]                                                           functional     ui     positive     account
+    DemoqaRes.Navigate To Book Store Application
+    DemoqaRes.Creating New Account                                   ${TEST_ACCOUNT}
+    DemoqaRes.Logging In And Verify                                  ${TEST_ACCOUNT}
+    DemoqaRes.Deleting Account
+    DemoqaRes.Reload Profile Page And Verify Account Deletion
+    DemoqaRes.Logging Out And Verify
+    DemoqaRes.Logging in with Invalid Credentials                    ${TEST_ACCOUNT}
+    [Teardown]      API_RES.Delete Account Via API
 
 
 User Should Be Logged Out Automatically After Account Deletion
