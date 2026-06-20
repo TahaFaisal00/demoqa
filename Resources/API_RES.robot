@@ -2,7 +2,7 @@
 Library                       RequestsLibrary
 Library                       FakerLibrary
 Library                       String
-Resource                      API_DataBase.robot
+Resource                      API_TestData.robot
 
 *** Keywords ***
 Open Session
