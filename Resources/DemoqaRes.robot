@@ -12,6 +12,12 @@ Resource                                          API_RES.robot
 
 Resource                                          UI_TestData.robot
 *** Keywords ***
+Reload Profile Page And Verify Account Deletion
+    [Documentation]     Used to bypass the frontend bug of the delete confirmation window stays open after clicking ok.
+    Reload
+    Verify Profile Page Loaded
+    Wait For Elements State    ${USER_NOT_FOUND_MESSAGE}    visible
+
 Verify Account Logged Out
     [Documentation]     Verify account logged out after clicking logout button and navigating back to profile page.
     Verify Login Page Loaded
@@ -53,7 +59,7 @@ Verify Book Image
 Verify Book Details
     [Documentation]     Verify book details including ISBN, Sub Title, Author and Publisher in details page.
     [Arguments]                               ${book}
-    Get Text    id=ISBN-wrapper >> id=userName-value    =   ${book.isbn}
+    Get Text    id=ISBN-wrapper >> id=userName-value    ==   ${book.isbn}
     Get Text    id=subtitle-wrapper >> id=userName-value    =   ${book.sub_title}
     Get Text    id=author-wrapper >> id=userName-value    =   ${book.author}
     Get Text    id=publisher-wrapper >> id=userName-value    =   ${book.publisher}
@@ -156,6 +162,11 @@ Navigate From Book Store To Profile Page
     BookStore.Click Profile Page Link
     Profile.Verify Profile Page Loaded
 
+Navigate From Profile Page To Login Page
+    [Documentation]     Navigates from profile page to login page and verify its page loaded.
+    Profile.Click Login Link
+    LogIn.Verify Login Page Loaded
+
 Logging In And Verify
     [Documentation]     Navigate to login page and enter valid credentials and log in and verify it.
     [Arguments]     ${account}
@@ -186,6 +197,12 @@ Creating New Account
     Register.Enter Password    ${account.password}
     Register.Click Register Button
 
+Deleting Account
+    [Documentation]     Delete account from profile page, and Bypass the frontend bug of confirmation window stays open.
+    ...                 then navigate to login page.
+    Profile.Click Delete Account Button
+    Profile.Verify Delete Account Confirmation Window Visible
+    Profile.Confirm Delete
 
 
 Logging in with Invalid Credentials
@@ -195,7 +212,6 @@ Logging in with Invalid Credentials
     Navigate to Login Page
     Entering Invalid Credentials                 ${CREDENTIALS}
 
-
 Entering Invalid Credentials
    [Arguments]                                   ${CREDENTIALS}
    LogIn.Verify that Login Page is Loaded
@@ -203,12 +219,6 @@ Entering Invalid Credentials
    LogIn.Entering Password                       ${CREDENTIALS.PASSWORD}
    LogIn.Clicking Login
    LogIn.Error Message                           ${CREDENTIALS.ERROR1}        ${CREDENTIALS.ERROR2}        ${CREDENTIALS.ERROR_TEXT}
-
-
-Deleting the Account
-    Profile.Click Delete Account button
-    Profile.Confirm Deleting the Account
-    Profile.Verify the Deletion                  ${DELETE_ME_USERNAME}
 
 Account Logged out
     Profile.Verify Logging out
