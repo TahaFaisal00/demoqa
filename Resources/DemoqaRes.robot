@@ -191,6 +191,10 @@ Deleting Account
     Profile.Verify Delete Account Confirmation Window Visible
     Profile.Confirm Delete
 
+Verify Delete Confirmation Window Persists After Confirm
+    [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
+    Wait For Elements State    ${DELETE_ACCOUNT_CONFIRMATION_WINDOW}      visible
+
 Verify Login Fails
     [Documentation]     Navigate to login page, and Log in with Invalid credentials and verify the error message or
     ...                 the fields attributes.
