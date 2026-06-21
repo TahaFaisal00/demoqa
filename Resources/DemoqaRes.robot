@@ -55,14 +55,19 @@ Verify Book Image
     ${src}=     Get Image Src       ${book}
     Should Contain    ${src}    ${expected_image}
 
+Open Book Page
+    [Documentation]
+    [Arguments]     ${book}
+    Open Book Details Page      ${book}
+    Verify Book Page Loaded     ${book}
 
 Verify Book Details
     [Documentation]     Verify book details including ISBN, Sub Title, Author and Publisher in details page.
     [Arguments]                               ${book}
     Get Text    id=ISBN-wrapper >> id=userName-value    ==   ${book.isbn}
-    Get Text    id=subtitle-wrapper >> id=userName-value    =   ${book.sub_title}
-    Get Text    id=author-wrapper >> id=userName-value    =   ${book.author}
-    Get Text    id=publisher-wrapper >> id=userName-value    =   ${book.publisher}
+    Get Text    id=subtitle-wrapper >> id=userName-value    ==   ${book.sub_title}
+    Get Text    id=author-wrapper >> id=userName-value    ==   ${book.author}
+    Get Text    id=publisher-wrapper >> id=userName-value    ==   ${book.publisher}
 
 Click Add Book To Collection And Verify Book Already Added
     [Documentation]     Click Add book to collection button in book details page of an already added book and verify the book already added alert.
