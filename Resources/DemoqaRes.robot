@@ -76,6 +76,16 @@ Click Add Book To Collection And Verify Book Added
     Click Add To Your Collection Button
     Wait For        ${alert}
 
+Search Book Store
+    [Documentation]     Waits until all books are visible then search for a book.
+    [Arguments]     ${all_books_in_store}    ${expected_book}
+    Verify Books Loaded                   ${all_books_in_store}
+    BookStore.Use Search Bar              ${expected_book.title}
+
+Verify No Books Found
+    [Documentation]     verify that no books are shown when the search in invalid.
+    Get Element Count    ${BOOK_ROW}    ==      0
+
 Verify Books Loaded
     [Documentation]     Verify all books are visible in the book store page.
     [Arguments]                                ${books}
@@ -221,13 +231,6 @@ Log In With Credentials
     LogIn.Enter Password            ${account.password}
     LogIn.Click Login In Login Page
 
-Search Books And Verify Results
-    [Documentation]     Waits until all books are visible then search for a book and verifies the result.
-    [Arguments]     ${all_books_in_store}    ${expected_book}       ${actual_book}     ${unexpected_books}
-    Verify Books Loaded                   ${all_books_in_store}
-    BookStore.Use Search Bar              ${expected_book.title}
-    Verify Search Results Contain         ${actual_book}
-    Verify Search Results Not Contain     ${unexpected_books}
 
 the Books
     BookStore.2 Books and Their Images

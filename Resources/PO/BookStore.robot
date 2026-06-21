@@ -9,6 +9,8 @@ ${LOGIN_BUTTON_IN_BOOK_STORE}                   id=login
 ${SEARCH_BAR}                                   id=searchBox
 ${SUBMIT_SEARCH_BUTTON}                         xpath=//button[contains(class,'btn-outline-secondary')]
 
+${BOOK_ROW}                                     /books?search
+
 ${BOOK_LOCATOR_BASE}                            css=a[href="{}"]
 ${BOOK_URL_BASE}                                https://demoqa.com{}
 
