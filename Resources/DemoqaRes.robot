@@ -76,13 +76,19 @@ Click Add Book To Collection And Verify Book Added
     Click Add To Your Collection Button
     Wait For        ${alert}
 
-Verify Search Results Contain
-    [Documentation]     verify the search result by asserting the correct books are visible
+Verify Books Loaded
+    [Documentation]     Verify all books are visible in the book store page.
     [Arguments]                                ${books}
     FOR    ${book}    IN    @{books}
         ${book_locator}=        Format String    ${BOOK_LOCATOR_BASE}           ${book}
         Wait For Elements State    ${book_locator}      visible
     END
+
+Verify Search Results Contain
+    [Documentation]     verify the search result by asserting the correct book is visible
+    [Arguments]                                ${book}
+    ${book_locator}=        Format String    ${BOOK_LOCATOR_BASE}           ${book}
+    Wait For Elements State    ${book_locator}      visible
 
 Verify Search Results Not Contain
     [Documentation]     verify the search result by asserting the incorrect books are hidden
@@ -214,6 +220,14 @@ Log In With Credentials
     LogIn.Enter User Name           ${account.user_name}
     LogIn.Enter Password            ${account.password}
     LogIn.Click Login In Login Page
+
+Search Books And Verify Results
+    [Documentation]     Waits until all books are visible then search for a book and verifies the result.
+    [Arguments]     ${all_books_in_store}    ${expected_book}     ${unexpected_books}
+    Verify Books Loaded                   ${all_books_in_store}
+    BookStore.Use Search Bar              ${expected_book}
+    Verify Search Results Contain         ${expected_book}
+    Verify Search Results Not Contain     ${unexpected_books}
 
 the Books
     BookStore.2 Books and Their Images
