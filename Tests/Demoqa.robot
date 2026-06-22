@@ -123,14 +123,23 @@ Books In Book Store Does Not Retain Their Own Images When Their Position Changed
     DemoqaRes.Verify Search Results Not Contain    ${GIT_POCKET_GUIDE_BOOK}
     Verify Book Image                              ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}    ${FIRST_BOOK_IMAGE_SRC}
 
-Adding Books to the Books Collection
+Add Book To Books Collection And Delete It
+    [Documentation]     Add book To book collection then delete it with single book delete button of the book and
+    ...                 verify it's deletion.
     [Tags]                                                           functional      ui     positive     bookstore
-    DemoqaRes.Navigating to Profile and Logging in                   ${MAIN_USERNAME}        ${MAIN_PASSWORD}
-    DemoqaRes.Return to BookStore From Account
-    DemoqaRes.Add the First Book to the Collection
-    DemoqaRes.Return to BookStore From Book Details
-    DemoqaRes.Add the Fourth Book to the Collection
-    DemoqaRes.Navigate to Profile and Verify that the Books Are in the Collection
+    [Setup]      API_RES.Create Account Via API
+    Navigate To Book Store Application
+    DemoqaRes.Logging In And Verify                    ${TEST_ACCOUNT}
+    Navigate To Book Store
+    Verify Books Loaded                                ${ALL_BOOKS}
+    Open Book Page                                     ${GIT_POCKET_GUIDE_BOOK}
+    Verify Book Details                                ${GIT_POCKET_GUIDE_BOOK_DETAILS}
+    Click Add Book To Collection And Verify Book Added
+    Navigate To Profile Page
+    Verify Book In Book Collection                     ${GIT_POCKET_GUIDE_BOOK}
+    Delete Single Book                                 ${GIT_POCKET_GUIDE_BOOK}
+    Verify Book Not In Book Collection                 ${GIT_POCKET_GUIDE_BOOK}
+    [Teardown]      API_RES.Delete Account Via API
 
 Adding Already Added Book to the Books Collection
     [Tags]                                                           functional      ui     negative     bookstore

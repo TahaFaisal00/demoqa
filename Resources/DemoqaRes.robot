@@ -32,6 +32,13 @@ Verify Book Not In Book Collection
         Wait For Elements State    ${book_location}     hidden
     END
 
+Delete Single Book
+    [Documentation]     Delete a book by clicking the delete icon next to the book and confirm deletion
+    ...                 then close the alert.
+    [Arguments]     ${book}
+    Click Delete Book Button            ${book}
+    Confirm Delete Book And Verify Book Deleted
+
 Confirm Delete Book And Verify Book Deleted
     [Documentation]     Click OK in the book deletion confirmation window and verify book deleted alert.
     [Arguments]
