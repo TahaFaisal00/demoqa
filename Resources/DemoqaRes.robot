@@ -49,7 +49,7 @@ Confirm Delete Book And Verify Book Deleted
 
 Verify Book In Book Collection
     [Documentation]     Verify added book exists in the book collection in profile page
-    [Arguments]                         ${books}
+    [Arguments]                         @{books}
     FOR    ${book}    IN    @{books}
         ${book_location}=        Format String      ${BOOK_LOCATOR_BASE}        ${book}
         Wait For Elements State    ${book_location}     visible
@@ -217,11 +217,18 @@ Creating New Account
     Click Register And Verify Account Registered
 
 Deleting Account
-    [Documentation]     Delete account from profile page, and Bypass the frontend bug of confirmation window stays open.
-    ...                 then navigate to login page.
+    [Documentation]     Delete account from profile page by clicking delete account button and confirm deletion.
     Profile.Click Delete Account Button
     Profile.Verify Delete Account Confirmation Window Visible
     Profile.Confirm Delete
+
+Delete All Books
+    [Documentation]     Delete All Books from profile page by clicking delete all books button and confirm deletion.
+    Profile.Click Delete All Books Button
+    Profile.Verify Delete All Books Confirmation Window Visible
+    Profile.Confirm Delete
+
+
 
 Verify Delete Account Confirmation Window Persists After Confirm
     [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
