@@ -69,28 +69,32 @@ POST Generate Token For Account - Invalid Required Fields - Returns 200
     [Teardown]      Delete Account Via API
 
 
+POST Create Account - Valid Fields - Returns 201
+    [Documentation]     Create new account. Verify response message and code.
+    [Tags]      functional      api     post        positive        account
+    ${response}=        Create Account Via API
+    Verify Resposne Code               ${CREATED_CODE}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USER_ID}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USERNAME}
+    Generate Token Via API
+    [Teardown]  Delete Account Via API
 
+POST Create Account - Missing Fields - Returns 400
+    [Documentation]     Create new account without user name. Verify response message and code.
+    [Tags]      functional      api     post        negative        account
+    ${response}=        Attempt Create Account With Missing Field Via API
+    Verify Resposne Code              ${BAD_REQUEST_CODE}
+    Verify Response Message    ${response}    ${MISSING_CREDENTIALS_MESSAGE}
 
-POST Create an Account - Returns 201 with Valid Required Fields
-    [Tags]      sanity      api     post        positive        account
-    &{body}=        Create Dictionary            userName=Taha021               password=Taha2001!!!
-    ${response}=        POST On Session     deqoma       /Account/v1/User      json=${body}
-    Status Should Be    expected_status=201
-    Log    message=${response.json()}
-#"userID":"84d46a79-b0df-4066-acd2-7d7a09d87d87"
-#'userID': '7187cfbe-4266-42bb-937e-09bfb4f40f50
-POST Create an Account - Returns 400 with Invalid or Missing Required Fields
-    [Tags]      sanity      api     post        negative        account
-    &{body}=        Create Dictionary                           password=x
-    ${response}=        POST On Session     deqoma       /Account/v1/User      json=${body}             expected_status=400
-    Log    message=${response.json()}
-
-POST Create an Account - Returns 406 with Already Used userName and Password
-    [Tags]      sanity      api     post        negative        account
-    &{body}=        Create Dictionary            userName=Taha00               password=Taha2001!!!
-    ${response}=        POST On Session     deqoma       /Account/v1/User      json=${body}             expected_status=406
-    Log    message=${response.json()}
-
+POST Create Account - Already Created Account - Returns 406
+    [Documentation]     Create new account using already created account username and password.
+    ...                 Verify response message and code.
+    [Tags]      functional      api     post        negative        account
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Attempt Create Account With Already Created Account Credentials Via API
+    Verify Resposne Code             ${NOT_ACCEPTABLE_CODE}
+    Verify Response Message     ${response}    ${USER_EXIST_MESSAGE}
+    [Teardown]      Delete Account Via API
 
 
 Delete an Account by ID - Returns 204 with Valid accountId
