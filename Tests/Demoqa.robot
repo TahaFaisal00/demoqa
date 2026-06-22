@@ -49,7 +49,7 @@ Delete Account Does Not Close Confirmation Window
     DemoqaRes.Creating New Account                                   ${TEST_ACCOUNT}
     DemoqaRes.Logging In And Verify                                  ${TEST_ACCOUNT}
     DemoqaRes.Deleting Account
-    DemoqaRes.Verify Delete Confirmation Window Persists After Confirm
+    DemoqaRes.Verify Delete Account Confirmation Window Persists After Confirm
     [Teardown]      API_RES.Delete Account Via API
 
 Delete Account Does Not automatically Log Out The User

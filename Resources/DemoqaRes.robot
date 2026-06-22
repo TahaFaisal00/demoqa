@@ -223,9 +223,13 @@ Deleting Account
     Profile.Verify Delete Account Confirmation Window Visible
     Profile.Confirm Delete
 
-Verify Delete Confirmation Window Persists After Confirm
+Verify Delete Account Confirmation Window Persists After Confirm
     [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
     Wait For Elements State    ${DELETE_ACCOUNT_CONFIRMATION_WINDOW}      visible
+
+Verify Delete All Books Confirmation Window Persists After Confirm
+    [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
+    Wait For Elements State    ${DELETE_ALL_BOOKS_CONFIRMATION_WINDOW}      visible
 
 Verify Account Still Signed In After Deletion
     [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
