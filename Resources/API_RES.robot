@@ -2,6 +2,7 @@
 Library                       RequestsLibrary
 Library                       FakerLibrary
 Library                       String
+Library    Collections
 Resource                      API_TestData.robot
 
 *** Keywords ***
@@ -84,11 +85,26 @@ Send Check Accout Authorization Request
     ${response}=        POST On Session     ${ALIAS}       ${CHECK_ACCOUNT_AUTHORIZATION_API}      json=${body}
     RETURN      ${response}
 
-Check Accout Authorization Via API
+Check Account Authorization Via API
     [Documentation]     Verify if account is logged in or not
     ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
     ${response}=        Send Check Accout Authorization Request       ${body}
     RETURN      ${response}
+
+Attempt Check Accout Authorization With Missing Field Via API
+    [Documentation]     Verify if account is logged in or not by using a only password without user name.
+    ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
+    Remove From Dictionary          userName
+    ${response}=        Send Check Accout Authorization Request       ${body}
+    RETURN      ${response}
+
+Attempt Check Accout Authorization With Invalid Fields Via API
+    [Documentation]     Verify if account is logged in or not by using a credentials of non existent account.
+    ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
+    Set To Dictionary          ${body}         userName=x
+    ${response}=        Send Check Accout Authorization Request       ${body}
+    RETURN      ${response}
+
 
 Send Get Account Details Request
     [Arguments]         ${headers}      ${uuid}
