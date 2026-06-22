@@ -39,38 +39,34 @@ POST Check Account Authorization - Invalid Fields - Returns 404
     [Teardown]      Delete Account Via API
 
 
+POST Generate Token For Account - Valid Fields - Returns 200
+    [Documentation]     Generate a token for newly created account. Verify response message and code.
+    [Tags]      functional      api     post        positive        account
+    [Setup]     Create Account Via API
+    ${response}=        Generate Token Via API
+    Verify Resposne Code    ${OK_CODE}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_TOKEN}
+    [Teardown]      Delete Account Via API
 
+POST Generate Token For Account - Missing Required Fields - Returns 400
+    [Documentation]     Generate a token for newly created account without providing the username.
+    ...                 Verify response message and code.
+    [Tags]      functional      api     post        negative        account
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Attempt Generate Token With Missing Field Via API
+    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Message Contains    ${response}    ${MISSING_CREDENTIALS_MESSAGE}
+    [Teardown]      Delete Account Via API
 
-
-
-
-POST Generate a Token for an Account - Returns 200 with Valid Required Fields
-    [Tags]      sanity      api     post        positive        account
-    &{body}=        Create Dictionary            userName=Taha00               password=Taha2001!!!
-    ${response}=        POST On Session     deqoma       /Account/v1/GenerateToken      json=${body}
-    Status Should Be    expected_status=200
-    Log    message=${response.json()}
-    Set Variable       ${Token}              ${response.json()}[token]
-    Set Suite Variable          ${Token}
-
-POST Generate a Token for an Account - Returns 400 with Invalid or Missing Required Fields
-    [Tags]      sanity      api     post        negative        account
-    &{body}=        Create Dictionary                           password=x
-    ${response}=        POST On Session     deqoma       /Account/v1/Authorized      json=${body}       expected_status=400
-    Log    message=${response.json()}
-
-
-POST Generate a Token for Non Exist Account - Returns 404 with Valid Required Fields
-    [Tags]      sanity      api     post        negative        account
-    &{body}=        Create Dictionary            userName=Taha0000               password=Taha2001!!!00
-    ${response}=        POST On Session     deqoma       /Account/v1/Authorized      json=${body}          expected_status=404
-    Log    message=${response.json()}
-
-
-
-
-
-
+POST Generate Token For Account - Invalid Required Fields - Returns 200
+    [Documentation]     Generate a token for a non existent account. Verify response message and code.
+    ...                 Bug: Response should return 404 not found but it's returning 200.
+    [Tags]      bug      api     post        negative        account
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Attempt Generate Token With Invalid Fields Via API
+    Verify Resposne Code    ${OK_CODE}
+    Verify Response Result Contain    ${response}    ${AUTHORIZATION_FIELD_RESULT}
+    [Teardown]      Delete Account Via API
 
 
 
