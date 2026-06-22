@@ -78,7 +78,6 @@ Attempt Generate Token With Missing Field Via API
     ${body}=       Build User Credentials Body     ${TEST_ACCOUNT}
     Remove From Dictionary      ${body}      userName
     ${response}=        Send Generate Token Request     ${body}
-    VAR    ${TOKEN}     ${response.json()}[token]       scope=TEST
     RETURN      ${response}
 
 Attempt Generate Token With Invalid Fields Via API
@@ -86,7 +85,6 @@ Attempt Generate Token With Invalid Fields Via API
     ${body}=       Build User Credentials Body     ${TEST_ACCOUNT}
     Set To Dictionary    ${body}         userName=x
     ${response}=        Send Generate Token Request     ${body}
-    VAR    ${TOKEN}     ${response.json()}[token]       scope=TEST
     RETURN      ${response}
 
 
@@ -202,5 +200,8 @@ Verify Response Body Return True
     ${body}=        Set Variable        ${response.json()}
     Should Be Equal      ${body}       ${True}
 
-
+Verify Response Result Contain
+    [Documentation]     Asserts the result field equals the expected value.
+    [Arguments]     ${response}      ${result}
+    Should Be Equal    ${response.json()}[result]    ${result}
 
