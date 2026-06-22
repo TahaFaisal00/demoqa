@@ -10,3 +10,45 @@ ${GET_ACCOUNT_DETAILS_API}                  /Account/v1/User/{}
 ${INVALID_TOKEN}                            xxx
 ${INVALID_ACCOUNT_ID}                       11111
 
+${OK_CODE}                                  200
+${BAD_REQUEST_CODE}                         400
+${NOT_AUTHORIZED_CODE}                      401
+${NOT_FOUND_CODE}                           404
+${CREATED_CODE}                             201
+${NOT_ACCEPTABLE_CODE}                      406
+${NO_CONTENT_CODE}                          204
+
+
+${MISSING_CREDENTIALS_MESSAGE}              UserName and Password required.
+${USER_NOT_FOUND_MESSAGE}                   User not found!
+${INCORRECT_USER_ID_MESSAGE}                User Id not correct!
+${USER_EXIST_MESSAGE}                       User exists!
+${NOT_AUTHORIZED_MESSAGE}                   User not authorized!
+
+${RESPONSE_FIELD_TOKEN}                     token
+${RESPONSE_FIELD_USER_ID}                   userID
+${RESPONSE_FIELD_USERNAME}                  username
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

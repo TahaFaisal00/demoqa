@@ -164,11 +164,31 @@ Attempt Get Account Details Without Authorization Via API
     ${response}=        Send Get Account Details Request        ${headers}         ${ACCOUNT_ID}
     RETURN      ${response}
 
+Verify Resposne Code
+    [Documentation]     Asserts the API's response code equals the expected value.
+    [Arguments]         ${response_code}
+    Status Should Be    expected_status=${response_code}
 
+Verify Response Message
+    [Documentation]     Asserts the message field equals the expected value.
+    [Arguments]     ${response}     ${message}
+    Should Be Equal    ${response.json()}[message]    ${message}
 
+Verify Response Message Contains
+    [Documentation]     Asserts the message field contain the expected value.
+    [Arguments]          ${response}      ${message}
+    Should Contain    ${response.json()}[message]    ${message}
 
+Verify Response Field Not Empty
+    [Documentation]     Asserts the given field in the response body is not message.
+    [Arguments]            ${response}      ${field}
+    Should Not Be Empty    ${response.json()}[${field}]
 
-
+Verify Response Body Return True
+    [Documentation]     Asserts the body return True in Verify Login Test.
+    [Arguments]     ${response}
+    ${body}=        Set Variable        ${response.json()}
+    Should Be Equal      ${body}       ${True}
 
 
 
