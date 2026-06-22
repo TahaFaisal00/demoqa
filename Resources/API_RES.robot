@@ -137,14 +137,14 @@ Check Account Authorization Via API
     ${response}=        Send Check Accout Authorization Request       ${body}
     RETURN      ${response}
 
-Attempt Check Accout Authorization With Missing Field Via API
+Attempt Check Account Authorization With Missing Field Via API
     [Documentation]     Verify if account is logged in or not by using a only password without user name.
     ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
     Remove From Dictionary      ${body}            userName
     ${response}=        Send Check Accout Authorization Request       ${body}
     RETURN      ${response}
 
-Attempt Check Accout Authorization With Invalid Fields Via API
+Attempt Check Account Authorization With Invalid Fields Via API
     [Documentation]     Verify if account is logged in or not by using a credentials of non existent account.
     ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
     Set To Dictionary          ${body}         userName=x

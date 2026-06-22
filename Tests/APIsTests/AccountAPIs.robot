@@ -1,33 +1,43 @@
 *** Settings ***
 Library         RequestsLibrary
 Library         SeleniumLibrary
-
-Suite Setup     Create Session    deqoma    ${BASE_URL}
+Resource        ../../Resources/API_RES.robot
+Suite Setup     Open Session
 
 *** Variables ***
 ${BASE_URL}             https://demoqa.com/
 ${TOKEN}                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IlRhaGEwMCIsInBhc3N3b3JkIjoiVGFoYTIwMDEhISEiLCJpYXQiOjE3Nzk2MzgyNTd9.4AXB6PLXamPZDwow-u3iEdP_qmPTggD3MNymWe3G_rM
 *** Test Cases ***
-POST Check if an Account is Authorized - Returns 200 with Valid Required Fields
-    [Tags]      sanity      api     post        positive        account
-    &{body}=        Create Dictionary            userName=Taha00               password=Taha2001!!!
-    &{headers}=     Create Dictionary       Authorization=Bearer ${TOKEN}
-    ${response}=        POST On Session     deqoma       /Account/v1/Authorized      json=${body}       headers=${headers}
-    Status Should Be    expected_status=200
-    Log    message=${response.json()}
+POST Check Account Authorization - Valid Fields - Returns 200
+    [Documentation]     Send a post request to check the given account authorization. verifies
+    ...                 the resposne code and the response body boolean.
+    [Tags]      functional      api     post        positive        account
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Check Account Authorization Via API
+    Verify Resposne Code         ${OK_CODE}
+    Verify Response Body Return True    ${response}
+    [Teardown]      Delete Account Via API
 
-POST Check if an Account is Authorized - Returns 400 with Invalid or Missing Required Fields
-    [Tags]      sanity      api     post        negative        account
-    &{body}=        Create Dictionary                           password=x
-    ${response}=        POST On Session     deqoma       /Account/v1/Authorized      json=${body}       expected_status=400
-    Log    message=${response.json()}
+POST Check Account Authorization - Missing Fields - Returns 400
+    [Documentation]     Send a post request to check the given account authorization without the user name
+    ...                 field. verifies the resposne code and the response message.
+    [Tags]      functional      api     post        negative        account
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Attempt Check Account Authorization With Missing Field Via API
+    Verify Resposne Code         ${BAD_REQUEST_CODE}
+    Verify Response Message Contains    ${response}    ${MISSING_CREDENTIALS_MESSAGE}
+    [Teardown]      Delete Account Via API
 
+POST Check Account Authorization - Invalid Fields - Returns 404
+    [Documentation]     Send a post request to check the given account authorization with a non
+    ...                 existent account user name. verifies the resposne code and the response message.
+    [Tags]      functional      api     post        negative        account
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Attempt Check Account Authorization With Invalid Fields Via API
+    Verify Resposne Code         ${NOT_FOUND_CODE}
+    Verify Response Message    ${response}    ${USER_NOT_FOUND_MESSAGE}
+    [Teardown]      Delete Account Via API
 
-POST Check if a Non Exist Account is Authorized - Returns 404 with Valid Required Fields
-    [Tags]      sanity      api     post        negative        account
-    &{body}=        Create Dictionary            userName=Taha0000               password=Taha2001!!!00
-    ${response}=        POST On Session     deqoma       /Account/v1/Authorized      json=${body}          expected_status=404
-    Log    message=${response.json()}
 
 
 
