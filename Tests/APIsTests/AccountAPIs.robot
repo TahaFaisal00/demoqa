@@ -1,6 +1,4 @@
 *** Settings ***
-Library         RequestsLibrary
-Library         SeleniumLibrary
 Resource        ../../Resources/API_RES.robot
 Suite Setup     Open Session
 
@@ -94,41 +92,42 @@ POST Create Account - Already Created Account - Returns 406
     [Teardown]      Delete Account Via API
 
 
-Delete an Account by ID - Returns 204 with Valid accountId
+Delete Account - Valid Account ID - Returns 204
+    [Documentation]     Delete Account by account ID. Verify response message and code.
     [Tags]      bug     api     delete        positive        account        #swagger doc error  # Bug 1: Swagger documents success as 200, API returns 204 # Bug 2: 204 response includes a body — violates HTTP spec (204 = No Content)
-    POST Generate a Token for an Account
-    ${UUID}=        Set Variable        8c8205b6-5258-44b0-b1b0-7ad11f8db43a
-    &{headers}=     Create Dictionary       Authorization=Bearer ${Token}
-    ${response}=        DELETE On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}
-    Status Should Be    expected_status=204
-    Log    message=${response.json()}
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Delete Account Via API
+    Verify Resposne Code    ${NO_CONTENT_CODE}
 
-Delete an Already Deleted Account by ID - Returns 200 with Valid accountId
-    [Tags]      bug     api      delete        positive        account          #Inconsistent behavior
-    POST Generate a Token for an Account
-    ${UUID}=        Set Variable        8c8205b6-5258-44b0-b1b0-7ad11f8db43a
-    &{headers}=     Create Dictionary       Authorization=Bearer ${Token}
-    ${response}=        DELETE On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}      expected_status=204
-    ${response}=        DELETE On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}      expected_status=200
-    Log    message=${response.json()}
+Delete Account - Already Deleted Account ID - Returns 200
+    [Documentation]     Delete Already Deleted Account by ID. Verify response message and code.
+    [Tags]      bug     api      delete        negative        account          #Inconsistent behavior
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Delete Account Via API
+    ${response}=        Delete Account Via API
+    Verify Resposne Code    ${OK_CODE}
+    Verify Response Message    ${response}       ${INCORRECT_USER_ID_MESSAGE}
 
-Delete an Account by ID - Returns 200 with Invalid accountId
-    [Tags]      bug     api      delete        positive        account         #response should return 401     #Inconsistent behavior   #204 and 401 descriptions are literally swapped.
-    POST Generate a Token for an Account
-    ${UUID}=        Set Variable        x4d46xxx-xxdf-40xx-axxd2-7d7a09xxxxxx
-    &{headers}=     Create Dictionary       Authorization=Bearer ${Token}
-    ${response}=        DELETE On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}      expected_status=200
-    Log    message=${response.json()}
+Delete Account - Invalid Account ID - Returns 200
+    [Documentation]     Delete Account by Invalid account ID. Verify response message and code.
+    [Tags]      bug     api      delete        negative        account         #response should return 401     #Inconsistent behavior   #204 and 401 descriptions are literally swapped.
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Attempt Delete Account With Invalid Account ID Via API
+    Verify Resposne Code    ${OK_CODE}
+    Verify Response Message    ${response}       ${INCORRECT_USER_ID_MESSAGE}
 
-Delete an Account by ID - Returns 401 Unauthorized
+Delete Account - Unauthorized - Returns 401
+    [Documentation]     Delete Account by Unauthorized account ID. Verify response message and code.
     [Tags]      bug     api      delete        negative        account      #204 and 401 descriptions are literally swapped.
-    ${UUID}=        Set Variable        84d46a79-b0df-4066-acd2-7d7a09d87d87
-    &{headers}=     Create Dictionary       Authorization=Bearer ${Token}
-    ${response}=        DELETE On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}      expected_status=401
-    Log    message=${response.json()}
+    [Setup]     Create Account Via API
+    ${response}=        Attempt Delete Account Without Authorization Via API
+    Verify Resposne Code    ${NOT_AUTHORIZED_CODE}
+    Verify Response Message    ${response}      ${NOT_AUTHORIZED_MESSAGE}
+    Generate Token Via API
+    [Teardown]      Delete Account Via API
 
 
-GET Account Details ID - Valid Account ID - Returns 200
+GET Account Details - Valid Account ID - Returns 200
     [Documentation]     Get account details by ID. Verify response message and code.
     [Tags]      functional      api     get        positive        account
     [Setup]   Create Authenticated Account Via API
@@ -138,7 +137,7 @@ GET Account Details ID - Valid Account ID - Returns 200
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USER_ID}
     [Teardown]      Delete Account Via API
 
-GET Account Details ID - Invalid Account ID - Returns 401
+GET Account Details - Invalid Account ID - Returns 401
     [Documentation]     Get account details by non existent account ID. Verify response message and code.
     [Tags]      functional      api     get        negative        account
     [Setup]     Create Authenticated Account Via API
