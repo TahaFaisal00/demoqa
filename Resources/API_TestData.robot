@@ -30,10 +30,12 @@ ${AUTHORIZATION_FIELD_RESULT}               User authorization failed.
 ${RESPONSE_FIELD_TOKEN}                     token
 ${RESPONSE_FIELD_USER_ID}                   userId
 ${RESPONSE_FIELD_USERNAME}                  username
+${RESPONSE_FIELD_BOOKS}                     books
 
+${BOOKSTORE_BOOKS_API}                      /BookStore/v1/Books
 
-
-
+${GIT_POCKET_GUIDE_ISBN}                    9781449325862
+${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}      9781449331818
 
 
 

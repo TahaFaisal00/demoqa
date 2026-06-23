@@ -204,3 +204,11 @@ Verify Response Result Contain
     [Arguments]     ${response}      ${result}
     Should Be Equal    ${response.json()}[result]    ${result}
 
+Send Bookstore Books Request
+    ${response}=        GET On Session     ${ALIAS}       ${BOOKSTORE_BOOKS_API}
+    RETURN      ${response}
+
+
+
+
+
