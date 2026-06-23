@@ -331,6 +331,19 @@ Delete Book From List Via API
     ${response}=            Send Delete Book From List Request      ${body}     ${headers}
     RETURN      ${response}
 
+Attempt Delete Book From List With Invalid User ID Via API
+    [Documentation]     Delete a single book from list of books by book ISBN. Using Invalid user ID.
+    ${headers}=         Build Delete Book From List Headers         ${TOKEN}
+    ${body}=        Build Delete Book From List Body        ${GIT_POCKET_GUIDE_ISBN}            ${INVALID_ACCOUNT_ID}
+    ${response}=            Send Delete Book From List Request      ${body}     ${headers}
+    RETURN      ${response}
+
+Attempt Delete Book From List With Missing ISBN And User ID Fields Via API
+    [Documentation]     Delete a single book from list of books. Without book ISBN and user ID.
+    ${headers}=         Build Delete Book From List Headers         ${TOKEN}
+    ${response}=            Send Delete Book From List Request      ${EMPTY}     ${headers}
+    RETURN      ${response}
+
 
 Build Replace Book By Another Body
     [Arguments]     ${user_id}          ${isbn}
