@@ -342,8 +342,9 @@ Send Replace Book By Another Request
 
 Update Book By Another Via API
     [Documentation]     Replace an existing book from the user book list with another by book ISBN. Require an authorized user ID.
-    ${body}=       Build Replace Book By Another Body       ${ACCOUNT_ID}       ${SPEAKING_JAVA_SCRIPT_ISBN}
+    [Arguments]     ${existing_book_isbn}        ${new_book_isbn}
+    ${body}=       Build Replace Book By Another Body       ${ACCOUNT_ID}       ${new_book_isbn}
     ${headers}=     Build Replace Book By Another Headers       ${TOKEN}
-    ${response}=        Send Replace Book By Another Request     ${GIT_POCKET_GUIDE_ISBN}              ${body}         ${headers}
+    ${response}=        Send Replace Book By Another Request     ${existing_book_isbn}              ${body}         ${headers}
     RETURN      ${response}
 
