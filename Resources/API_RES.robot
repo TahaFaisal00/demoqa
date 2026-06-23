@@ -204,11 +204,29 @@ Verify Response Result Contain
     [Arguments]     ${response}      ${result}
     Should Be Equal    ${response.json()}[result]    ${result}
 
-Send Bookstore Books Request
+Send Get Bookstore Books Request
     ${response}=        GET On Session     ${ALIAS}       ${BOOKSTORE_BOOKS_API}
     RETURN      ${response}
 
 
+Build Create List Of Books Body
+    [Arguments]     ${user_id}      @{isbns}
+    &{body}=        Create Dictionary           userId=${user_id}             collectionOfIsbns=${isbns}
+    RETURN      ${body}
 
+Build Create List Of Books Headers
+    [Arguments]     ${token}
+    &{headers} =        Create Dictionary       Authorization=Bearer ${token}
+    RETURN      ${headers}
 
+Send Create List Of Books Request
+    [Arguments]             ${body}     ${headers}
+    ${response}=        POST On Session    ${ALIAS}       ${RESPONSE_FIELD_BOOKS}     json=${body}        headers=${headers}
+    RETURN      ${response}
 
+Create List Of Books Via API
+    [Documentation]     Create a list of books from the given books ISBNs. Requires an authorized user ID.
+    ${body}=        Build Create List Of Books Body       ${ACCOUNT_ID}      ${GIT_POCKET_GUIDE_ISBN}       ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
+    ${headers}=     Build Create List Of Books Headers      ${TOKEN}
+    ${response}=        Send Create List Of Books Request       ${body}     ${headers}
+    RETURN      ${response}
