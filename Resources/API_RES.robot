@@ -298,3 +298,27 @@ Delete Book From List Via API
     ${response}=            Send Delete Book From List Request      ${body}     ${headers}
     RETURN      ${response}
 
+
+Build Replace Book By Another Body
+    [Arguments]     ${user_id}          ${isbn}
+    &{body}=        Create Dictionary           userId=${user_id}             isbn=${isbn}
+    RETURN      ${body}
+
+Build Replace Book By Another Headers
+    [Arguments]     ${token}
+    &{headers} =        Create Dictionary       Authorization=Bearer ${token}
+    RETURN      ${token}
+
+Send Replace Book By Another Request
+    [Arguments]       ${existing_book_isbn}     ${body}     ${headers}
+    ${update_book_by_another_api_with_book_isbn}=       Format String    ${UPDATE_BOOK_BY_ANOTHER_API}       ${existing_book_isbn}
+    ${response}=        PUT On Session    ${ALIAS}       ${update_book_by_another_api_with_book_isbn}     json=${body}        headers=${headers}
+    RETURN      ${response}
+
+Update Book By Another Via API
+    [Documentation]     Replace an existing book from the user book list with another by book ISBN. Require an authorized user ID.
+    ${body}=       Build Replace Book By Another Body       ${ACCOUNT_ID}       ${SPEAKING_JAVA_SCRIPT_ISBN}
+    ${headers}=     Build Replace Book By Another Headers       ${TOKEN}
+    ${response}=        Send Replace Book By Another Request     ${GIT_POCKET_GUIDE_ISBN}              ${body}         ${headers}
+    RETURN      ${response}
+

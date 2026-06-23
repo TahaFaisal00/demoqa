@@ -36,10 +36,11 @@ ${RESPONSE_FIELD_TITLE}                     title
 
 ${BOOKSTORE_BOOKS_API}                      /BookStore/v1/Books
 ${BOOKSTORE_BOOK_API}                       /BookStore/v1/Book
+${UPDATE_BOOK_BY_ANOTHER_API}               /BookStore/v1/Books/{}
 
 ${GIT_POCKET_GUIDE_ISBN}                    9781449325862
 ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}      9781449331818
-
+${SPEAKING_JAVA_SCRIPT_ISBN}                     9781449365035
 
 
 
