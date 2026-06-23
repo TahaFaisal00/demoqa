@@ -4,9 +4,6 @@ Library         SeleniumLibrary
 Resource        ../../Resources/API_RES.robot
 Suite Setup     Open Session
 
-*** Variables ***
-${BASE_URL}             https://demoqa.com/
-${TOKEN}                eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyTmFtZSI6IlRhaGEwMCIsInBhc3N3b3JkIjoiVGFoYTIwMDEhISEiLCJpYXQiOjE3Nzk2MzgyNTd9.4AXB6PLXamPZDwow-u3iEdP_qmPTggD3MNymWe3G_rM
 *** Test Cases ***
 POST Check Account Authorization - Valid Fields - Returns 200
     [Documentation]     Send a post request to check the given account authorization. verifies
@@ -150,11 +147,3 @@ GET Account Details ID - Invalid Account ID - Returns 401
     Verify Response Message    ${response}    ${USER_NOT_FOUND_MESSAGE}
     [Teardown]      Delete Account Via API
 
-*** Keywords ***
-POST Generate a Token for an Account
-    &{body}=        Create Dictionary            userName=Taha02               password=Taha2001!!!
-    ${response}=        POST On Session     deqoma       /Account/v1/GenerateToken      json=${body}
-    Status Should Be    expected_status=200
-    Log    message=${response.json()}
-    ${Token}=       Set Variable         ${response.json()}[token]
-    Set Suite Variable          ${Token}
