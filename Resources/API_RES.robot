@@ -234,3 +234,27 @@ Create List Of Books Via API
     ${headers}=     Build Create List Of Books Headers      ${TOKEN}
     ${response}=        Send Create List Of Books Request       ${body}     ${headers}
     RETURN      ${response}
+
+
+Build Delete List Of Books Params
+    [Arguments]     ${user_id}
+    &{params}=      Create Dictionary           UserId=${user_id}
+    RETURN      ${params}
+
+Build Delete List Of Books Headers
+    [Arguments]     ${token}
+    &{headers} =        Create Dictionary       Authorization=Bearer ${token}
+    RETURN      ${headers}
+
+Send Delete List Of Books Request
+    [Arguments]      ${params}           ${headers}
+    ${response}=     DELETE On Session      ${ALIAS}            ${BOOKSTORE_BOOKS_API}       params=${params}        headers=${headers}
+    RETURN
+
+Delete List Of Books Via API
+    [Documentation]     Delete the list of book from an authorized user by user ID.
+    ${params}=      Build Delete List Of Books Params       ${ACCOUNT_ID}
+    ${headers}=     Build Delete List Of Books Headers      ${TOKEN}
+    ${response}=        Send Delete List Of Books Request       ${params}       ${headers}
+    RETURN      ${response}
+
