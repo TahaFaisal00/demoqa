@@ -17,7 +17,7 @@ ${NOT_FOUND_CODE}                           404
 ${CREATED_CODE}                             201
 ${NOT_ACCEPTABLE_CODE}                      406
 ${NO_CONTENT_CODE}                          204
-
+${INTERNAL_SERVER_ERROR_CODE}               500
 
 ${MISSING_CREDENTIALS_MESSAGE}              UserName and Password required.
 ${USER_NOT_FOUND_MESSAGE}                   User not found!
@@ -47,7 +47,7 @@ ${SPEAKING_JAVA_SCRIPT_ISBN}                     9781449365035
 ${INVALID_ISBN}                                  1111111111111
 ${INVALID_USER_ID}                               xxxxxxxxxxxxx
 
-
+${CONTENT_TYPE_TEXT_HTML}                       text/html
 
 
 

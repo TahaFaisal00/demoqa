@@ -204,6 +204,12 @@ Verify Response Result Contain
     [Arguments]     ${response}      ${result}
     Should Be Equal    ${response.json()}[result]    ${result}
 
+Verify Response Headers Content type
+    [Documentation]     Asserts the internal server error when sending a request with a missing field the API
+    ...                 Should Return json error but instead it returns HTML.
+    [Arguments]     ${response}      ${content_type}
+    Should Contain    ${response.headers['Content-Type']}    ${content_type}
+
 Send Get Bookstore Books Request
     ${response}=        GET On Session     ${ALIAS}       ${BOOKSTORE_BOOKS_API}
     RETURN      ${response}
@@ -290,20 +296,14 @@ Send Get Book Details Request
 
 Get Book Details Via API
     [Documentation]     Get a single book details by book ISBN.
-    ${params}=      Build Get Book Details Params       ${GIT_POCKET_GUIDE_ISBN}
-    ${response}=        Send Get Book Details Request       ${params}
-    RETURN      ${response}
-
-Attempt Get Book Details With Invalid ISBN Via API
-    [Documentation]     Get a single book details by non existent book ISBN.
-    ${params}=      Build Get Book Details Params       ${INVALID_ISBN}
+    [Arguments]     ${book_isbn}
+    ${params}=      Build Get Book Details Params       ${book_isbn}
     ${response}=        Send Get Book Details Request       ${params}
     RETURN      ${response}
 
 Attempt Get Book Details With Missing ISBN Via API
     [Documentation]     Get a single book details without ISBN.
-    ${params}=      Build Get Book Details Params       ${EMPTY}
-    ${response}=        Send Get Book Details Request       ${params}
+    ${response}=        Send Get Book Details Request       ${EMPTY}
     RETURN      ${response}
 
 

@@ -102,28 +102,30 @@ Delete a List of Books From an Account by User ID - Return 401 Unauthorized
 
 
 
-GET a Book Details by ISBN - Returns 200 with Valid ISBN
-    [Tags]     sanity      api     get        positive        bookstore
-    &{params}=          Create Dictionary           ISBN=9781449325862
-    ${response}=        GET On Session   deqoma       /BookStore/v1/Book        params=${params}
-    Status Should Be    expected_status=200
-    Log    message=${response.json()}
+GET Book Details - Valid ISBN - Returns 200
+    [Documentation]     Get a specific book details with Valid ISBN. Verify Response code and message.
+    [Tags]     functional      api     get        positive        bookstore
+    ${response}=        Get Book Details Via API        ${GIT_POCKET_GUIDE_ISBN}
+    Verify Resposne Code    ${OK_CODE}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_ISBN}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_TITLE}
 
-GET a Book Details by ISBN - Returns 400 with Invalid ISBN
-    [Tags]     sanity      api     get        neagtive        bookstore
-    &{params}=          Create Dictionary           ISBN=xxxxxx
-    ${response}=        GET On Session   deqoma       /BookStore/v1/Book        params=${params}        expected_status=400
-    Log    message=${response.json()}
+GET Book Details - Invalid ISBN - Returns 400
+    [Documentation]     Get a specific book details with Invalid ISBN. Verify Response code and message.
+    [Tags]     functional      api     get        neagtive        bookstore
+    ${response}=        Get Book Details Via API            ${INVALID_ISBN}
+    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_MESSAGE}
 
-GET a Book Details by ISBN - Returns 500 with Missing ISBN
+GET Book Details - Missing ISBN - Returns 500
+    [Documentation]     Get a book details without ISBN. Verify Response code and message. BUG: when sending a request
+    ...                 without the required field the API should return 400 with a json type error message.
+    ...                 but the API is returning 500 - internal server error. And a text/html type content that
+    ...                 is leaking internal paths, Sequelize, MySQL.
     [Tags]     bug      api     get        negative        bookstore       #500 instead of 400    #: Server exposes internal stack trace and file paths in response body — security issue
-    &{params}=          Create Dictionary
-    ${response}=        GET On Session   deqoma       /BookStore/v1/Book        params=${params}        expected_status=500
-    Log    message=${response.text}
-
-
-
-
+    ${response}=        Attempt Get Book Details With Missing ISBN Via API
+    Verify Resposne Code    ${INTERNAL_SERVER_ERROR_CODE}
+    Verify Response Headers Content type      ${response}        ${CONTENT_TYPE_TEXT_HTML}
 
 
 Delete a Book From a List of Books of an Account - Return 204 with Valid Required Fields
