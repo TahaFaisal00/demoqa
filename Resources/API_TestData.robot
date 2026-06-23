@@ -31,8 +31,11 @@ ${RESPONSE_FIELD_TOKEN}                     token
 ${RESPONSE_FIELD_USER_ID}                   userId
 ${RESPONSE_FIELD_USERNAME}                  username
 ${RESPONSE_FIELD_BOOKS}                     books
+${RESPONSE_FIELD_ISBN}                      isbn
+${RESPONSE_FIELD_TITLE}                     title
 
 ${BOOKSTORE_BOOKS_API}                      /BookStore/v1/Books
+${BOOKSTORE_BOOK_API}                       /BookStore/v1/Book
 
 ${GIT_POCKET_GUIDE_ISBN}                    9781449325862
 ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}      9781449331818

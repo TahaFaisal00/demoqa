@@ -258,3 +258,20 @@ Delete List Of Books Via API
     ${response}=        Send Delete List Of Books Request       ${params}       ${headers}
     RETURN      ${response}
 
+Build Get Book Details Params
+    [Arguments]     ${book_isbn}
+    &{params}=          Create Dictionary           ISBN=${book_isbn}
+    RETURN      ${params}
+
+Send Get Book Details Request
+    [Arguments]     ${params}
+    ${response}=        GET On Session   ${ALIAS}       ${BOOKSTORE_BOOK_API}        params=${params}
+    RETURN      ${response}
+
+Get Book Details Via API
+    [Documentation]     Get a single book details by book ISBN.
+    ${params}=      Build Get Book Details Params       ${GIT_POCKET_GUIDE_ISBN}
+    ${response}=        Send Get Book Details Request       ${params}
+    RETURN      ${response}
+
+
