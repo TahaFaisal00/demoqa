@@ -28,7 +28,7 @@ ${NOT_AUTHORIZED_MESSAGE}                   User not authorized!
 ${AUTHORIZATION_FIELD_RESULT}               User authorization failed.
 
 ${RESPONSE_FIELD_TOKEN}                     token
-${RESPONSE_FIELD_USER_ID}                   userID
+${RESPONSE_FIELD_USER_ID}                   userId
 ${RESPONSE_FIELD_USERNAME}                  username
 
 

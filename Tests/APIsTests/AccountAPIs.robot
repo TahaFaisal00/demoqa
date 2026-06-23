@@ -115,7 +115,6 @@ Delete an Already Deleted Account by ID - Returns 200 with Valid accountId
     ${response}=        DELETE On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}      expected_status=200
     Log    message=${response.json()}
 
-
 Delete an Account by ID - Returns 200 with Invalid accountId
     [Tags]      bug     api      delete        positive        account         #response should return 401     #Inconsistent behavior   #204 and 401 descriptions are literally swapped.
     POST Generate a Token for an Account
@@ -132,34 +131,24 @@ Delete an Account by ID - Returns 401 Unauthorized
     Log    message=${response.json()}
 
 
+GET Account Details ID - Valid Account ID - Returns 200
+    [Documentation]     Get account details by ID. Verify response message and code.
+    [Tags]      functional      api     get        positive        account
+    [Setup]   Create Authenticated Account Via API
+    ${response}=        Get Account Details Via API
+    Status Should Be    ${OK_CODE}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USERNAME}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USER_ID}
+    [Teardown]      Delete Account Via API
 
-
-
-
-
-GET Account Details by ID - Returns 200 with Valid accountId
-    [Tags]      sanity      api     get        positive        account
-    POST Generate a Token for an Account
-    ${UUID}=        Set Variable        84d46a79-b0df-4066-acd2-7d7a09d87d87
-    &{headers}=     Create Dictionary       Authorization=Bearer ${Token}
-    ${response}=        GET On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}
-    Status Should Be    expected_status=200
-    Log    message=${response.json()}
-
-GET Account Details by ID - Returns 401 with Invalid accountId
-    [Tags]      sanity      api     get        negative        account
-    POST Generate a Token for an Account
-    ${UUID}=        Set Variable        x4d46xxx-xxdf-40xx-axxd2-7d7a09xxxxxx
-    &{headers}=     Create Dictionary       Authorization=Bearer ${Token}
-    ${response}=        GET On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}      expected_status=401
-    Log    message=${response.json()}
-
-GET Account Details by ID - Returns 401 Unauthorized
-    [Tags]      sanity      api     get        negative        account
-    ${UUID}=        Set Variable        84d46a79-b0df-4066-acd2-7d7a09d87d87
-    &{headers}=     Create Dictionary       Authorization=Bearer ${Token}
-    ${response}=        GET On Session     deqoma       /Account/v1/User/${UUID}        headers=${headers}      expected_status=401
-    Log    message=${response.json()}
+GET Account Details ID - Invalid Account ID - Returns 401
+    [Documentation]     Get account details by non existent account ID. Verify response message and code.
+    [Tags]      functional      api     get        negative        account
+    [Setup]     Create Authenticated Account Via API
+    ${response}=        Attempt Get Account Details With Invalid Account ID Via API
+    Status Should Be    ${NOT_AUTHORIZED_CODE}
+    Verify Response Message    ${response}    ${USER_NOT_FOUND_MESSAGE}
+    [Teardown]      Delete Account Via API
 
 *** Keywords ***
 POST Generate a Token for an Account
