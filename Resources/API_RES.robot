@@ -416,11 +416,18 @@ Verify Delete Account Succeeds
     [Arguments]     ${response}
     Verify Resposne Code    ${NO_CONTENT_CODE}
 
+Verify Books In Response
+    [Documentation]     Asserts the books ISBNs in response books field.
+    [Arguments]    ${response}     @{expected_isbns}
+    @{actual_isbns}=        Evaluate    [b['isbn'] for b in $response.json()['books']]
+    Lists Should Be Equal     @{actual_isbns}    @{expected_isbns}      ignore_order=True
 
-
-
-
-
+Verify Book Replaced
+    [Documentation]     Asserts the book in the book collection has been replaced with the new book.
+    [Arguments]    ${response}     ${new_isbn}      ${old_isbn}
+    @{actual_isbns}=        Evaluate    [b['isbn'] for b in $response.json()['books']]
+    Should Contain        ${actual_isbns}    ${new_isbn}
+    Should Not Contain    ${actual_isbns}    ${old_isbn}
 
 
 
