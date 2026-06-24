@@ -1,7 +1,5 @@
 *** Settings ***
-Library         RequestsLibrary
-Library         SeleniumLibrary
-Resource    ../../Resources/API_RES.robot
+Resource        ../../Resources/API_RES.robot
 Suite Setup     Open Session
 
 *** Test Cases ***
