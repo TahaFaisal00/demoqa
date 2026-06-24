@@ -261,6 +261,14 @@ Attempt Create List Of Books With Invalid Field Via API
     ${response}=        Send Create List Of Books Request       ${body}     ${headers}
     RETURN      ${response}
 
+Attempt Create List Of Books Without Authorization Via API
+    [Documentation]     Create a list of books from the given books ISBNs with unauthorized user ID.
+    [Arguments]     @{isbn}
+    ${body}=        Build Create List Of Books Body       ${ACCOUNT_ID}      @{isbn}
+    ${headers}=     Build Create List Of Books Headers      ${EMPTY}
+    ${response}=        Send Create List Of Books Request       ${body}     ${EMPTY}
+    RETURN      ${response}
+
 Build Delete List Of Books Params
     [Arguments]     ${user_id}
     &{params}=      Create Dictionary           UserId=${user_id}
@@ -284,7 +292,7 @@ Delete List Of Books Via API
     RETURN      ${response}
 
 Attempt Delete List Of Books With Invalid User ID Via API
-    [Documentation]     Delete the list of book from an unauthorized user by user ID.
+    [Documentation]     Delete the list of book from user by invalid user ID.
     ${params}=      Build Delete List Of Books Params       ${INVALID_USER_ID}
     ${headers}=     Build Delete List Of Books Headers      ${TOKEN}
     ${response}=        Send Delete List Of Books Request       ${params}       ${headers}
