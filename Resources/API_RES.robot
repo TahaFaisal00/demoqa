@@ -391,3 +391,37 @@ Attempt Update Book By Another Without New Book ISBN Via API
     ${headers}=     Build Replace Book By Another Headers       ${TOKEN}
     ${response}=        Send Replace Book By Another Request     ${existing_book_isbn}              ${EMPTY}        ${headers}
     RETURN      ${response}
+
+Verify Create Account Succeeds
+    [Documentation]     Asserts create account returns 201 with account user name and ID.
+    [Arguments]     ${resposne}
+    Verify Resposne Code               ${CREATED_CODE}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USER_ID}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USERNAME}
+
+Verify Generate Token Succeeds
+    [Documentation]     Asserts generate token returns 200 with the token.
+    [Arguments]     ${response}
+    Verify Resposne Code    ${OK_CODE}
+    Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_TOKEN}
+
+Verify Account Authorization Succeeds
+    [Documentation]     Asserts verify authorization returns 200 with True boolean
+    [Arguments]         ${response}
+    Verify Resposne Code         ${OK_CODE}
+    Verify Response Body Return True    ${response}
+
+Verify Delete Account Succeeds
+    [Documentation]     Asserts Delete Account returns 204 without content.
+    [Arguments]     ${response}
+    Verify Resposne Code    ${NO_CONTENT_CODE}
+
+
+
+
+
+
+
+
+
+
