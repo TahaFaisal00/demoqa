@@ -345,31 +345,19 @@ Build Delete Book From List Headers
 Build Delete Book From List Body
     [Arguments]     ${book_isbn}        ${user_id}
     &{body}=      Create Dictionary        isbn=${book_isbn}                    userId=${user_id}
-    RETURN      ${bdoy}
+    RETURN      ${body}
 
 Send Delete Book From List Request
     [Arguments]     ${body}     ${headers}
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}
+    ${response}=     DELETE On Session      ${ALIAS}        ${BOOKSTORE_BOOK_API}       json=${body}        headers=${headers}      expected_status=anything
     RETURN      ${response}
 
 Delete Book From List Via API
     [Documentation]     Delete a single book from list of books by book ISBN. Require an authorized user ID
+    [Arguments]     ${book_isbn}
     ${headers}=         Build Delete Book From List Headers         ${TOKEN}
-    ${body}=        Build Delete Book From List Body        ${GIT_POCKET_GUIDE_ISBN}            ${ACCOUNT_ID}
+    ${body}=        Build Delete Book From List Body        ${book_isbn}            ${ACCOUNT_ID}
     ${response}=            Send Delete Book From List Request      ${body}     ${headers}
-    RETURN      ${response}
-
-Attempt Delete Book From List With Invalid User ID Via API
-    [Documentation]     Delete a single book from list of books by book ISBN. Using Invalid user ID.
-    ${headers}=         Build Delete Book From List Headers         ${TOKEN}
-    ${body}=        Build Delete Book From List Body        ${GIT_POCKET_GUIDE_ISBN}            ${INVALID_ACCOUNT_ID}
-    ${response}=            Send Delete Book From List Request      ${body}     ${headers}
-    RETURN      ${response}
-
-Attempt Delete Book From List With Missing ISBN And User ID Fields Via API
-    [Documentation]     Delete a single book from list of books. Without book ISBN and user ID.
-    ${headers}=         Build Delete Book From List Headers         ${TOKEN}
-    ${response}=            Send Delete Book From List Request      ${EMPTY}     ${headers}
     RETURN      ${response}
 
 

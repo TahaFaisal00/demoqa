@@ -24,8 +24,8 @@ ${USER_NOT_FOUND_MESSAGE}                   User not found!
 ${INCORRECT_USER_ID_MESSAGE}                User Id not correct!
 ${USER_EXIST_MESSAGE}                       User exists!
 ${NOT_AUTHORIZED_MESSAGE}                   User not authorized!
-${BOOK_ISBN_NOT_AVAILABLE_MESSAGE}          ISBN supplied is not available in Books Collection!
-
+${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}          ISBN supplied is not available in Books Collection!
+${BOOK_ISBN_NOT_AVAILABLE_IN_USER_COLLECTION_MESSAGE}          ISBN supplied is not available in User's Collection!
 
 ${AUTHORIZATION_FIELD_RESULT}               User authorization failed.
 

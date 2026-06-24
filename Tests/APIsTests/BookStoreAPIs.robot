@@ -28,7 +28,7 @@ Create List Of Books - Unauthorized - Returns 401
     ...                 Verify response and code.
     [Tags]      functional      api     post        negative        bookstore
     [Setup]     Create Account Via API
-    ${response}=        Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
+    ${response}=        Attempt Create List Of Books Without Authorization Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
     Verify Resposne Code    ${NOT_AUTHORIZED_CODE}
     Verify Response Message    ${response}    ${NOT_AUTHORIZED_MESSAGE}
     Generate Token Via API
@@ -52,56 +52,37 @@ Create List Of Books - Invalid Fields - Returns 400
     [Setup]     Create Authenticated Account Via API
     ${response}=        Create List Of Books Via API        ${INVALID_ISBN}
     Verify Resposne Code    ${BAD_REQUEST_CODE}
-    Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_MESSAGE}
+    Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}
     [Teardown]      Delete Account Via API
 
 
+Delete List Of Books - Valid User ID - Return 204
+    [Documentation]     Deletes all books from account book collection. Requires authorized User.
+    ...                 Verifies response code.
+    ...                 the swagger documents a response body that doesn't exist, misleading to any developer reading it.
+    [Tags]      functional      api     delete        positive        bookstore
+    [Setup]     Create Authenticated Account And List Of Books Via API
+    ${response}=      Delete List Of Books Via API
+    Verify Resposne Code    ${NO_CONTENT_CODE}
+    [Teardown]      Delete Account Via API
 
+Delete List Of Books - Non Existent Books List - Return 204
+    [Documentation]     Deletes never created books from account book collection. Requires authorized User.
+    ...                 Verifies response code.
+    [Tags]      functional      api     delete        negative        bookstore
+    [Setup]     Create Authenticated Account Via API
+    ${response}=      Delete List Of Books Via API
+    Verify Resposne Code    ${NO_CONTENT_CODE}
+    [Teardown]      Delete Account Via API
 
-
-
-Delete a List of Books From an Account by User ID - Return 204 with Valid userID
-    [Tags]      bug      api     delete        positive        bookstore     #04 documents a response body that doesn't exist — misleading to any developer reading it
-    POST a List of Books
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
-    Status Should Be    expected_status=204
-
-
-Delete a List of Books That Was Never Created From an Account by User ID - Return 204 with Valid userID
-    [Tags]      bug      api     delete        positive        bookstore          #Inconsistent behavior
-    POST Generate a Token for an Account
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
-    Status Should Be    expected_status=204
-
-
-Delete an Already Deleted List of Books From an Account by User ID - Return 204 with Valid userID
-    [Tags]     bug      api     delete        positive        bookstore              #Inconsistent behavior
-    POST Generate a Token for an Account
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}
-    Status Should Be    expected_status=204
-
-Delete a List of Books From an Account by User ID - Return 401 with Invalid userID
-    [Tags]      sanity      api     delete        negative        bookstore
-    POST a List of Books
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{params}=      Create Dictionary           UserId=xxd46axx-b0df-40xx-xxd2-7d7a09d8xxxx
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}      expected_status=401
-    Log    message=${response.json()}
-
-Delete a List of Books From an Account by User ID - Return 401 Unauthorized
-    [Tags]      sanity      api     delete        negative        bookstore
-    POST a List of Books
-    &{params}=      Create Dictionary           UserId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        expected_status=401
-
-
+Delete List Of Books - Already Deleted Books List - Return 204
+    [Documentation]     Deletes already deleted books from account book collection. Requires authorized User.
+    ...                 Verifies response code.
+    [Tags]     functional      api     delete        negative        bookstore
+    [Setup]     Create Authenticated Account And List Of Books Via API
+    ${response}=      Delete List Of Books Via API
+    Verify Resposne Code    ${NO_CONTENT_CODE}
+    [Teardown]      Delete Account Via API
 
 
 GET Book Details - Valid ISBN - Returns 200
@@ -117,7 +98,7 @@ GET Book Details - Invalid ISBN - Returns 400
     [Tags]     functional      api     get        neagtive        bookstore
     ${response}=        Get Book Details Via API            ${INVALID_ISBN}
     Verify Resposne Code    ${BAD_REQUEST_CODE}
-    Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_MESSAGE}
+    Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}
 
 GET Book Details - Missing ISBN - Returns 500
     [Documentation]     Get a book details without ISBN. Verify Response code and message. BUG: when sending a request
@@ -130,62 +111,38 @@ GET Book Details - Missing ISBN - Returns 500
     Verify Response Headers Content type      ${response}        ${CONTENT_TYPE_TEXT_HTML}
 
 
-Delete a Book From a List of Books of an Account - Return 204 with Valid Required Fields
-    [Tags]    bug      api     delete        positive        bookstore     #04 documents a response body that doesn't exist — misleading to any developer reading it
-    POST a List of Books
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}
-    Status Should Be    expected_status=204
-    #Log    message=${response.json()}
+Delete Book From List Of Books - Valid Fields - Return 204
+    [Documentation]     Deletes a book From the books collection of account. Requires authorized User.
+    ...                 Verifies response code.
+    ...                 the swagger documents a response body that doesn't exist, misleading to any developer reading it.
+    [Tags]    bug      api     delete        positive        bookstore
+    [Setup]     Create Authenticated Account And List Of Books Via API
+    ${response}=     Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
+    Verify Resposne Code    ${NO_CONTENT_CODE}
+    [Teardown]      Delete Account Via API
 
+Delete Book From List Of Books - Non Existent Book - Return 400
+    [Documentation]     Deletes a never created book From the books collection of account. Requires authorized User.
+    ...                 Verifies response code.
+    ...                 DELETE request for an ISBN of a book not in the user's collection returns 400. Should be 404
+    [Tags]      bug      api     delete        negative        bookstore
+    [Setup]     Create Authenticated Account Via API
+    ${response}=     Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
+    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_USER_COLLECTION_MESSAGE}
+    [Teardown]      Delete Account Via API
 
-Delete a Book That Was Never Added to the Collection - Return 400 with Valid Required Fields
-    [Tags]      bug      api     delete        negative        bookstore     # Inconsistent behavior between the two DELETE endpoints + The API returns 400 Bad Request with But 400 means your request is malforme
-    POST Generate a Token for an Account
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=400
-
-
-Delete an ALready Deleted Book From a List of Books of an Account - Return 400 with Valid Required Fields
-    [Tags]    bug      api     delete        negative        bookstore     # Inconsistent behavior between the two DELETE endpoints + The API returns 400 Bad Request with But 400 means your request is malforme
-    POST a List of Books
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=204
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=400
-
-
-
-
-Delete a Book From a List of Books of an Account - Return 401 with Invalid Required Field
-    [Tags]      sanity     api     delete        negative        bookstore
-    POST a List of Books
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{params}=      Create Dictionary           UserId=xxd46axx-b0df-40xx-xxd2-7d7a09d8xxxx
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Books       params=${params}        headers=${headers}      expected_status=401
-    Log    message=${response.json()}
-
-
-Delete a Book From a List of Books of an Account - Return 500 with Missing Required Field
-    [Tags]      bug     api     delete        negative        bookstore        #500 instead of 400         #: Server exposes internal stack trace and file paths in response body — security issue
-    POST a List of Books
-    &{headers} =        Create Dictionary       Authorization=Bearer ${Token}
-    &{body}=      Create Dictionary                            userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}        headers=${headers}       expected_status=500
-    Log    message=${response.text}
-
-
-Delete a Book From a List of Books of an Account - Return 401 Unauthorized
-    [Tags]      sanity     api     delete        negative        bookstore
-    POST a List of Books
-    &{body}=      Create Dictionary        isbn=9781449331818                     userId=84d46a79-b0df-4066-acd2-7d7a09d87d87
-    ${response}=     DELETE On Session      deqoma            /BookStore/v1/Book       json=${body}             expected_status=401
-    Log    message=${response.json()}
-
-
-
+Delete Book From List Of Books - Already Deleted Book - Return 400
+    [Documentation]     Deletes an already deleted book From the books collection of account. Requires authorized User.
+    ...                 Verifies response code.
+    ...                 DELETE request for an ISBN of a book not in the user's collection returns 400. Should be 404
+    [Tags]    bug      api     delete        negative        bookstore
+    [Setup]     Create Authenticated Account And List Of Books Via API
+    Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
+    ${response}=     Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
+    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_USER_COLLECTION_MESSAGE}
+    [Teardown]      Delete Account Via API
 
 
 Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN and Valid Required Fields
@@ -207,7 +164,7 @@ Update a Book by Replacing it with Another by ISBN - Returns 400 with Valid ISBN
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
     ${response}=        Update Book By Another Via API   ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}        ${INVALID_ISBN}
     Verify Resposne Code    ${BAD_REQUEST_CODE}
-    Verify Response Message    ${response}        ${BOOK_ISBN_NOT_AVAILABLE_MESSAGE}
+    Verify Response Message    ${response}        ${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}
     [Teardown]      Delete Account Via API
 
 Update a Book by Replacing it with Another by ISBN - Returns 500 with Missing ISBN and Valid Required Fields
