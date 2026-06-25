@@ -7,7 +7,7 @@ Resource                      API_TestData.robot
 
 *** Keywords ***
 Open Session
-    [Documentation]      open HTTP session. Used as suite Setup
+    [Documentation]      opens HTTP session. Used as suite Setup
     Create Session       ${ALIAS}    ${BASE_URL}
 
 Generate Valid Password
@@ -42,7 +42,7 @@ Send Create Account Request
     RETURN          ${response}
 
 Create Account Via API
-    [Documentation]     Create a new account via api using a fresh faker details.
+    [Documentation]     Creates a new account via api using a fresh faker details.
     ...                 Used together with Generate Token Via API as test setup.
     ${account}=     Create Account Details
     VAR          &{TEST_ACCOUNT}      &{account}     scope=TEST
@@ -52,13 +52,13 @@ Create Account Via API
     RETURN      ${response}
 
 Attempt Create Account With Already Created Account Credentials Via API
-    [Documentation]     Create a new account via api using already created account details.
+    [Documentation]     Creates a new account via api using already created account details.
     ${body}=        Build User Credentials Body            ${TEST_ACCOUNT}
     ${response}=      Send Create Account Request       ${body}
     RETURN      ${response}
 
 Attempt Create Account With Missing Field Via API
-    [Documentation]     Create a new account without username.
+    [Documentation]     Creates a new account without username.
     ${account}=     Create Account Details
     VAR          &{TEST_ACCOUNT}      &{account}     scope=TEST
     ${body}=        Build User Credentials Body           ${account}
@@ -94,20 +94,20 @@ Attempt Generate Token With Invalid Fields Via API
 
 
 Create Authenticated Account Via API
-    [Documentation]     Create account and it's token. it makes TEST_ACCOUNT, ACCOUNT_ID and TOKEN test variables.
+    [Documentation]     Creates account and it's token. it makes TEST_ACCOUNT, ACCOUNT_ID and TOKEN test variables.
     ...                 Used as test setup
     Create Account Via API
     Generate Token Via API
 
 Create Authenticated Account And List Of Books Via API
-    [Documentation]     Create account and it's token. Then create a list of 2 books.
+    [Documentation]     Creates account and it's token. Then create a list of 2 books.
     ...                 Used as test setup
     Create Account Via API
     Generate Token Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${SPEAKING_JAVA_SCRIPT_ISBN}
 
 Autheticate Account And Delete It Via API
-    [Documentation]     Generate token for the unauthorized account then delete it. Used as test teardown.
+    [Documentation]     Generates token for the unauthorized account then delete it. Used as test teardown.
     Generate Token Via API
     Delete Account Via API
 
@@ -148,20 +148,20 @@ Send Check Accout Authorization Request
     RETURN      ${response}
 
 Check Account Authorization Via API
-    [Documentation]     Verify if account is logged in or not
+    [Documentation]     Asserts if account is logged in or not
     ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
     ${response}=        Send Check Accout Authorization Request       ${body}
     RETURN      ${response}
 
 Attempt Check Account Authorization With Missing Field Via API
-    [Documentation]     Verify if account is logged in or not by using a only password without user name.
+    [Documentation]     Asserts if account is logged in or not by using a only password without user name.
     ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
     Remove From Dictionary      ${body}            userName
     ${response}=        Send Check Accout Authorization Request       ${body}
     RETURN      ${response}
 
 Attempt Check Account Authorization With Invalid Fields Via API
-    [Documentation]     Verify if account is logged in or not by using a credentials of non existent account.
+    [Documentation]     Asserts if account is logged in or not by using a credentials of non existent account.
     ${body}=        Build User Credentials Body     ${TEST_ACCOUNT}
     Set To Dictionary          ${body}         userName=x
     ${response}=        Send Check Accout Authorization Request       ${body}
@@ -175,13 +175,13 @@ Send Get Account Details Request
     RETURN      ${response}
 
 Get Account Details Via API
-    [Documentation]     Get an existing account details by ID. Requires authorized account.
+    [Documentation]     Gets an existing account details by ID. Requires authorized account.
     ${headers}=     Build Authorization Headers     ${TOKEN}
     ${response}=        Send Get Account Details Request        ${headers}         ${ACCOUNT_ID}
     RETURN      ${response}
 
 Attempt Get Account Details With Invalid Account ID Via API
-    [Documentation]     Get a non existent account details by ID.
+    [Documentation]     Gets a non existent account details by ID.
     ${headers}=     Build Authorization Headers     ${TOKEN}
     ${response}=        Send Get Account Details Request        ${headers}         ${INVALID_ACCOUNT_ID}
     RETURN      ${response}
@@ -228,7 +228,7 @@ Send Get Bookstore Books Request
     RETURN      ${response}
 
 Get Bookstore Books Via API
-    [Documentation]     Get all books from the bookstore and their details.
+    [Documentation]     Gets all books from the bookstore and their details.
     ${resposne}=        Send Get Bookstore Books Request
     RETURN      ${resposne}
 
@@ -253,7 +253,7 @@ Send Create List Of Books Request
     RETURN      ${response}
 
 Create List Of Books Via API
-    [Documentation]     Create a list of books from the given books ISBNs. Requires an authorized user ID.
+    [Documentation]     Creates a list of books from the given books ISBNs. Requires an authorized user ID.
     [Arguments]     @{isbn}
     ${body}=        Build Create List Of Books Body       ${ACCOUNT_ID}      @{isbn}
     ${headers}=     Build Create List Of Books Headers      ${TOKEN}
@@ -261,13 +261,13 @@ Create List Of Books Via API
     RETURN      ${response}
 
 Attempt Create List Of Books With Missing Field Via API
-    [Documentation]     Create a list of books Without books ISBNs. Requires an authorized user ID.
+    [Documentation]     Creates a list of books Without books ISBNs. Requires an authorized user ID.
     ${headers}=     Build Create List Of Books Headers      ${TOKEN}
     ${response}=        Send Create List Of Books Request       ${empty}     ${headers}
     RETURN      ${response}
 
 Attempt Create List Of Books With Invalid Field Via API
-    [Documentation]     Create a list of books from the non existent books ISBNs. Requires an authorized user ID.
+    [Documentation]     Creates a list of books from the non existent books ISBNs. Requires an authorized user ID.
     [Arguments]     @{isbn}
     ${body}=        Build Create List Of Books Body       ${ACCOUNT_ID}      @{isbn}
     ${headers}=     Build Create List Of Books Headers      ${TOKEN}
@@ -275,7 +275,7 @@ Attempt Create List Of Books With Invalid Field Via API
     RETURN      ${response}
 
 Attempt Create List Of Books Without Authorization Via API
-    [Documentation]     Create a list of books from the given books ISBNs with unauthorized user ID.
+    [Documentation]     Creates a list of books from the given books ISBNs with unauthorized user ID.
     [Arguments]     @{isbn}
     ${body}=        Build Create List Of Books Body       ${ACCOUNT_ID}      @{isbn}
     ${headers}=     Build Create List Of Books Headers      ${EMPTY}
@@ -298,14 +298,14 @@ Send Delete List Of Books Request
     RETURN
 
 Delete List Of Books Via API
-    [Documentation]     Delete the list of book from an authorized user by user ID.
+    [Documentation]     Deletes the list of book from an authorized user by user ID.
     ${params}=      Build Delete List Of Books Params       ${ACCOUNT_ID}
     ${headers}=     Build Delete List Of Books Headers      ${TOKEN}
     ${response}=        Send Delete List Of Books Request       ${params}       ${headers}
     RETURN      ${response}
 
 Attempt Delete List Of Books With Invalid User ID Via API
-    [Documentation]     Delete the list of book from user by invalid user ID.
+    [Documentation]     Deletes the list of book from user by invalid user ID.
     ${params}=      Build Delete List Of Books Params       ${INVALID_USER_ID}
     ${headers}=     Build Delete List Of Books Headers      ${TOKEN}
     ${response}=        Send Delete List Of Books Request       ${params}       ${headers}
@@ -323,14 +323,14 @@ Send Get Book Details Request
     RETURN      ${response}
 
 Get Book Details Via API
-    [Documentation]     Get a single book details by book ISBN.
+    [Documentation]     Gets a single book details by book ISBN.
     [Arguments]     ${book_isbn}
     ${params}=      Build Get Book Details Params       ${book_isbn}
     ${response}=        Send Get Book Details Request       ${params}
     RETURN      ${response}
 
 Attempt Get Book Details With Missing ISBN Via API
-    [Documentation]     Get a single book details without ISBN.
+    [Documentation]     Gets a single book details without ISBN.
     ${response}=        Send Get Book Details Request       ${EMPTY}
     RETURN      ${response}
 
@@ -353,7 +353,7 @@ Send Delete Book From List Request
     RETURN      ${response}
 
 Delete Book From List Via API
-    [Documentation]     Delete a single book from list of books by book ISBN. Require an authorized user ID
+    [Documentation]     Deletes a single book from list of books by book ISBN. Requires an authorized user ID
     [Arguments]     ${book_isbn}
     ${headers}=         Build Delete Book From List Headers         ${TOKEN}
     ${body}=        Build Delete Book From List Body        ${book_isbn}            ${ACCOUNT_ID}
@@ -378,7 +378,7 @@ Send Replace Book By Another Request
     RETURN      ${response}
 
 Update Book By Another Via API
-    [Documentation]     Replace an existing book from the user book list with another by book ISBN. Require an authorized user ID.
+    [Documentation]     Replaces an existing book from the user book list with another by book ISBN. Requires an authorized user ID.
     [Arguments]     ${existing_book_isbn}        ${new_book_isbn}
     ${body}=       Build Replace Book By Another Body       ${ACCOUNT_ID}       ${new_book_isbn}
     ${headers}=     Build Replace Book By Another Headers       ${TOKEN}
@@ -386,7 +386,7 @@ Update Book By Another Via API
     RETURN      ${response}
 
 Attempt Update Book By Another Without New Book ISBN Via API
-    [Documentation]     Replace an existing book from the user book list with another without book ISBN. Require an authorized user ID.
+    [Documentation]     Replaces an existing book from the user book list with another without book ISBN. Requires an authorized user ID.
     [Arguments]     ${existing_book_isbn}
     ${headers}=     Build Replace Book By Another Headers       ${TOKEN}
     ${response}=        Send Replace Book By Another Request     ${existing_book_isbn}              ${EMPTY}        ${headers}
