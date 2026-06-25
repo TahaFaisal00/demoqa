@@ -71,8 +71,7 @@ POST Create Account - Valid Fields - Returns 201
     Verify Resposne Code               ${CREATED_CODE}
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USER_ID}
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_USERNAME}
-    Generate Token Via API
-    [Teardown]  Delete Account Via API
+    [Teardown]  Autheticate Account And Delete It Via API
 
 POST Create Account - Missing Fields - Returns 400
     [Documentation]     Creates new account without user name. Verifies response message and code.
@@ -85,11 +84,11 @@ POST Create Account - Already Created Account - Returns 406
     [Documentation]     Creates new account using already created account username and password.
     ...                 Verifies response message and code.
     [Tags]      functional      api     post        negative        account
-    [Setup]     Create Authenticated Account Via API
+    [Setup]     Create Account Via API
     ${response}=        Attempt Create Account With Already Created Account Credentials Via API
     Verify Resposne Code             ${NOT_ACCEPTABLE_CODE}
     Verify Response Message     ${response}    ${USER_EXIST_MESSAGE}
-    [Teardown]      Delete Account Via API
+    [Teardown]      Autheticate Account And Delete It Via API
 
 
 Delete Account - Valid Account ID - Returns 204
@@ -126,8 +125,7 @@ Delete Account - Unauthorized - Returns 401
     ${response}=        Attempt Delete Account Without Authorization Via API
     Verify Resposne Code    ${NOT_AUTHORIZED_CODE}
     Verify Response Message    ${response}      ${NOT_AUTHORIZED_MESSAGE}
-    Generate Token Via API
-    [Teardown]      Delete Account Via API
+    [Teardown]      Autheticate Account And Delete It Via API
 
 
 GET Account Details - Valid Account ID - Returns 200
