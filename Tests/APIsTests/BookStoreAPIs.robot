@@ -4,7 +4,7 @@ Suite Setup     Open Session
 
 *** Test Cases ***
 GET Bookstore Books - Returns 200
-    [Documentation]     Get all the books with their details from the bookstore. Verify response code and message.
+    [Documentation]     Gets all the books with their details from the bookstore. Verifies response code and message.
     [Tags]      functional      api     get      positive        bookstore
     ${response}=        Get Bookstore Books Via API
     Verify Resposne Code    ${OK_CODE}
@@ -12,8 +12,8 @@ GET Bookstore Books - Returns 200
 
 
 Create List Of Books - Valid Fields - Returns 201
-    [Documentation]     Create list of book using the given books ISBNs. Requires authorized account.
-    ...                 Verify response and code.
+    [Documentation]     Creates list of book using the given books ISBNs. Requires authorized account.
+    ...                 Verifies response and code.
     [Tags]      functional      api     post        positive        bookstore
     [Setup]     Create Authenticated Account Via API
     ${response}=        Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
@@ -22,8 +22,8 @@ Create List Of Books - Valid Fields - Returns 201
     [Teardown]      Delete Account Via API
 
 Create List Of Books - Unauthorized - Returns 401
-    [Documentation]     Create list of book using the given books ISBNs using unauthorized account.
-    ...                 Verify response and code.
+    [Documentation]     Creates list of book using the given books ISBNs using unauthorized account.
+    ...                 Verifies response and code.
     [Tags]      functional      api     post        negative        bookstore
     [Setup]     Create Account Via API
     ${response}=        Attempt Create List Of Books Without Authorization Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
@@ -33,7 +33,7 @@ Create List Of Books - Unauthorized - Returns 401
     [Teardown]      Delete Account Via API
 
 Create List Of Books - Missing Fields - Returns 400
-    [Documentation]     Create list of book without providing books ISBNs. Verify Response code and message.
+    [Documentation]     Creates list of book without providing books ISBNs. Verifies Response code and message.
     ...                 BUG: when sending a request without the required field the API should return json type error message.
     ...                 but the API is returning text/html type content that is leaking internal paths, Sequelize, MySQL.
     [Tags]      bug      api     post        negative        bookstore
@@ -44,8 +44,8 @@ Create List Of Books - Missing Fields - Returns 400
     [Teardown]      Delete Account Via API
 
 Create List Of Books - Invalid Fields - Returns 400
-    [Documentation]     Create list of book using invalid book ISBN. Requires authorized account.
-    ...                 Verify response and code.
+    [Documentation]     Creates list of book using invalid book ISBN. Requires authorized account.
+    ...                 Verifies response and code.
     [Tags]      functional      api     post        negative        bookstore
     [Setup]     Create Authenticated Account Via API
     ${response}=        Create List Of Books Via API        ${INVALID_ISBN}
@@ -84,7 +84,7 @@ Delete List Of Books - Already Deleted Books List - Return 204
 
 
 GET Book Details - Valid ISBN - Returns 200
-    [Documentation]     Get a specific book details with Valid ISBN. Verify Response code and message.
+    [Documentation]     Gets a specific book details with Valid ISBN. Verifies Response code and message.
     [Tags]     functional      api     get        positive        bookstore
     ${response}=        Get Book Details Via API        ${GIT_POCKET_GUIDE_ISBN}
     Verify Resposne Code    ${OK_CODE}
@@ -92,14 +92,14 @@ GET Book Details - Valid ISBN - Returns 200
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_TITLE}
 
 GET Book Details - Invalid ISBN - Returns 400
-    [Documentation]     Get a specific book details with Invalid ISBN. Verify Response code and message.
+    [Documentation]     Gets a specific book details with Invalid ISBN. Verifies Response code and message.
     [Tags]     functional      api     get        neagtive        bookstore
     ${response}=        Get Book Details Via API            ${INVALID_ISBN}
     Verify Resposne Code    ${BAD_REQUEST_CODE}
     Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}
 
 GET Book Details - Missing ISBN - Returns 500
-    [Documentation]     Get a book details without ISBN. Verify Response code and message. BUG: when sending a request
+    [Documentation]     Gets a book details without ISBN. Verifies Response code and message. BUG: when sending a request
     ...                 without the required field the API should return 400 with a json type error message.
     ...                 but the API is returning 500 - internal server error. And a text/html type content that
     ...                 is leaking internal paths, Sequelize, MySQL.
@@ -144,8 +144,8 @@ Delete Book From List Of Books - Already Deleted Book - Return 400
 
 
 Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN and Valid Required Fields
-    [Documentation]     Replace a book from the book collection of a user with a new book by ISBN.
-    ...                 Verify response message and code.
+    [Documentation]     Replaces a book from the book collection of a user with a new book by ISBN.
+    ...                 Verifies response message and code.
     [Tags]      functional     api     put        positive        bookstore
     [Setup]     Create Authenticated Account Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
@@ -155,8 +155,8 @@ Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN
     [Teardown]      Delete Account Via API
 
 Update a Book by Replacing it with Another by ISBN - Returns 400 with Valid ISBN and Invalid Required Fields
-    [Documentation]     Replace a book from the book collection of a user with an invalid book ISBN.
-    ...                 Verify response message and code.
+    [Documentation]     Replaces a book from the book collection of a user with an invalid book ISBN.
+    ...                 Verifies response message and code.
     [Tags]      functional     api     put        negative        bookstore
     [Setup]     Create Authenticated Account Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
@@ -166,8 +166,8 @@ Update a Book by Replacing it with Another by ISBN - Returns 400 with Valid ISBN
     [Teardown]      Delete Account Via API
 
 Update a Book by Replacing it with Another by ISBN - Returns 500 with Missing ISBN and Valid Required Fields
-    [Documentation]     Replace a book from the book collection of a user with a new book without its ISBN.
-    ...                 Verify response message and code.
+    [Documentation]     Replaces a book from the book collection of a user with a new book without its ISBN.
+    ...                 Verifies response message and code.
     ...                 BUG: when sending a request without the required field the API should return json type error message.
     ...                 but the API is returning text/html type content that is leaking internal paths, Sequelize, MySQL.
     [Tags]      bug     api     put        negative        bookstore
@@ -179,8 +179,8 @@ Update a Book by Replacing it with Another by ISBN - Returns 500 with Missing IS
     [Teardown]      Delete Account Via API
 
 Update a Book by Replacing it with Another by ISBN - Returns 200 with ISBN of an Already Existing Book in the Required Fields
-    [Documentation]      Replace a book from the book collection of a user with an ISBN of a book that already exist
-    ...                 in the book collection. Verify response message and code.
+    [Documentation]      Replaces a book from the book collection of a user with an ISBN of a book that already exist
+    ...                 in the book collection. Verifies response message and code.
     ...                 BUG: the API allows duplicating book in the same collection.
     [Tags]      bug      api     put        negative        bookstore
     [Setup]     Create Authenticated Account Via API
