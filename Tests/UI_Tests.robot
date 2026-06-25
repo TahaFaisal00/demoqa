@@ -5,7 +5,7 @@ Resource                                                             ../Resource
 
 Suite Setup                                                          Run Keywords         API_RES.Open Session      AND       Common.Launch Browser
 Suite Teardown                                                       Common.Close Browser
-#robot -d Results  Tests/Demoqa.robot
+#robot -d Results  Tests/UI_Tests.robot
 
 *** Test Cases ***
 Log In With Invalid Credentials
@@ -21,7 +21,7 @@ Log In And Log Out
     [Documentation]     Creates a fresh account, Logs in, Then logs out and delete the account.
     [Tags]                                                           functional       ui     positive        account
     [Setup]     API_RES.Create Authenticated Account Via API
-    Navigate To Book Store Application
+    DemoqaRes.Navigate To Book Store Application
     DemoqaRes.Logging In And Verify                                  ${TEST_ACCOUNT}
     DemoqaRes.Logging Out And Verify
     [Teardown]      API_RES.Delete Account Via API
@@ -116,29 +116,29 @@ Books In Book Store Does Not Retain Their Own Images When Their Position Changed
     ...                 have the first book image now.
     [Tags]                                                           bug     ui     positive     bookstore
     DemoqaRes.Navigate To Book Store Application
-    Verify Book Image                              ${GIT_POCKET_GUIDE_BOOK}    ${FIRST_BOOK_IMAGE_SRC}
-    Verify Book Image                              ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}    ${SECOND_BOOK_IAMGE_SRC}
+    DemoqaRes.Verify Book Image                              ${GIT_POCKET_GUIDE_BOOK}    ${FIRST_BOOK_IMAGE_SRC}
+    DemoqaRes.Verify Book Image                              ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}    ${SECOND_BOOK_IAMGE_SRC}
     DemoqaRes.Search Book Store                    ${ALL_BOOKS}    ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK.title}
     DemoqaRes.Verify Search Results Contain        ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
     DemoqaRes.Verify Search Results Not Contain    ${GIT_POCKET_GUIDE_BOOK}
-    Verify Book Image                              ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}    ${FIRST_BOOK_IMAGE_SRC}
+    DemoqaRes.Verify Book Image                              ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}    ${FIRST_BOOK_IMAGE_SRC}
 
 Add Book To Books Collection And Delete It
     [Documentation]     Add book To book collection then delete it with single book delete button of the book and
     ...                 verify it's deletion.
     [Tags]                                                           functional      ui     positive     bookstore
     [Setup]      API_RES.Create Account Via API
-    Navigate To Book Store Application
+    DemoqaRes.Navigate To Book Store Application
     DemoqaRes.Logging In And Verify                    ${TEST_ACCOUNT}
-    Navigate To Book Store
-    Verify Books Loaded                                ${ALL_BOOKS}
-    Open Book Page                                     ${GIT_POCKET_GUIDE_BOOK}
-    Verify Book Details                                ${GIT_POCKET_GUIDE_BOOK_DETAILS}
-    Click Add Book To Collection And Verify Book Added
-    Navigate To Profile Page
-    Verify Book In Book Collection                     ${GIT_POCKET_GUIDE_BOOK}
-    Delete Single Book                                 ${GIT_POCKET_GUIDE_BOOK}
-    Verify Book Not In Book Collection                 ${GIT_POCKET_GUIDE_BOOK}
+    DemoqaRes.Navigate To Book Store
+    DemoqaRes.Verify Books Loaded                                ${ALL_BOOKS}
+    DemoqaRes.Open Book Page                                     ${GIT_POCKET_GUIDE_BOOK}
+    DemoqaRes.Verify Book Details                                ${GIT_POCKET_GUIDE_BOOK_DETAILS}
+    DemoqaRes.Click Add Book To Collection And Verify Book Added
+    DemoqaRes.Navigate To Profile Page
+    DemoqaRes.Verify Book In Book Collection                     ${GIT_POCKET_GUIDE_BOOK}
+    DemoqaRes.Delete Single Book                                 ${GIT_POCKET_GUIDE_BOOK}
+    DemoqaRes.Verify Book Not In Book Collection                 ${GIT_POCKET_GUIDE_BOOK}
     [Teardown]      API_RES.Delete Account Via API
 
 Delete All Books Does Not Close Confirmation Window
@@ -147,20 +147,20 @@ Delete All Books Does Not Close Confirmation Window
     ...                 Verify the UI doesn't update and delete confirmation window stays open.
     [Tags]                                                           bug       ui     negative       bookstore
     [Setup]      API_RES.Create Account Via API
-    Navigate To Book Store Application
+    DemoqaRes.Navigate To Book Store Application
     DemoqaRes.Logging In And Verify                    ${TEST_ACCOUNT}
-    Navigate To Book Store
-    Verify Books Loaded                                ${ALL_BOOKS}
-    Open Book Page                                     ${GIT_POCKET_GUIDE_BOOK}
-    Verify Book Details                                ${GIT_POCKET_GUIDE_BOOK_DETAILS}
-    Click Add Book To Collection And Verify Book Added
-    Open Book Page                                     ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
-    Verify Book Details                                ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK_DETAILS}
-    Click Add Book To Collection And Verify Book Added
-    Navigate To Profile Page
-    Verify Book In Book Collection                     ${GIT_POCKET_GUIDE_BOOK}     ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
-    Delete All Books
-    Verify Delete All Books Confirmation Window Persists After Confirm
+    DemoqaRes.Navigate To Book Store
+    DemoqaRes.Verify Books Loaded                                ${ALL_BOOKS}
+    DemoqaRes.Open Book Page                                     ${GIT_POCKET_GUIDE_BOOK}
+    DemoqaRes.Verify Book Details                                ${GIT_POCKET_GUIDE_BOOK_DETAILS}
+    DemoqaRes.Click Add Book To Collection And Verify Book Added
+    DemoqaRes.Open Book Page                                     ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
+    DemoqaRes.Verify Book Details                                ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK_DETAILS}
+    DemoqaRes.Click Add Book To Collection And Verify Book Added
+    DemoqaRes.Navigate To Profile Page
+    DemoqaRes.Verify Book In Book Collection                     ${GIT_POCKET_GUIDE_BOOK}     ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
+    DemoqaRes.Delete All Books
+    DemoqaRes.Verify Delete All Books Confirmation Window Persists After Confirm
     [Teardown]      API_RES.Delete Account Via API
 
 
