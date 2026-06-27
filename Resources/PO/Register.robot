@@ -14,7 +14,7 @@ ${REGISTER_PAGE_URL}                 https://demoqa.com/register
 *** Keywords ***
 Verify Register Page Loaded
     Wait For Elements State          text="Register to Book Store"     visible
-    Get Url                          ${REGISTER_PAGE_URL}
+    Get Url            ==              ${REGISTER_PAGE_URL}
 
 Enter First Name
     [Arguments]                      ${first_name}

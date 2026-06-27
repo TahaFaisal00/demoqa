@@ -28,20 +28,21 @@ Log In And Log Out
     DemoqaRes.Logging Out And Verify
     [Teardown]      API_RES.Delete Account Via API
 
-Register And Delete Account
-    [Documentation]     Create new account using freshly created data then delete the account. Reload the page after
-    ...                 deleting it to bypass the unresponsive frontend bug then return for login page to log out
-    ...                 because of another bug: you won't be logged out after deleting your account. Then
+Log In And Delete Account
+    [Documentation]     Creating new account Via API using freshly created data, because
+    ...                 of BUG: Verify ReCaptcha error message appear randomly without a visible UI test.
+    ...                 And Signing in then deleting the account. Reload page after deleting it to bypass
+    ...                 the unresponsive frontend bug then return for login page to log out
+    ...                 because of another BUG: you won't be logged out after deleting your account. Then
     ...                 Verify your account was deleted by trying to log in by using the same Credentials.
     [Tags]                                                           functional     ui     positive     account
-    DemoqaRes.Navigate To Book Store Application
-    DemoqaRes.Creating New Account                                   ${TEST_ACCOUNT}
+    [Setup]     DemoqaRes.Start Session And Create Account Then Open Book Store Application
     DemoqaRes.Logging In And Verify                                  ${TEST_ACCOUNT}
-    DemoqaRes.Deleting Account
-    DemoqaRes.Reload Profile Page And Verify Account Deletion
+    DemoqaRes.Delete Account Then Reload Profile Page And Verify Account Deletion
+    DemoqaRes.Navigate To Login Page
     DemoqaRes.Logging Out And Verify
     DemoqaRes.Verify Login Fails                                     ${TEST_ACCOUNT}
-    [Teardown]      API_RES.Delete Account Via API
+    [Teardown]      Run Keyword And Ignore Error         API_RES.Autheticate Account And Delete It Via API
 
 Delete Account Does Not Close Confirmation Window
     [Documentation]     Create new account using freshly created data then delete the account. Verify the UI doesn't

@@ -12,11 +12,48 @@ Resource                                          API_RES.robot
 
 Resource                                          UI_TestData.robot
 *** Keywords ***
-Reload Profile Page And Verify Account Deletion
-    [Documentation]     Used to bypass the frontend bug of the delete confirmation window stays open after clicking ok.
+Start Session And Create Account Details Then Open Book Store Application
+    [Documentation]     Opens a new frest session then Creates an account details and publishes $TEST_ACCOUNT
+    ...                 to test scope. Then navigates to book store application. Used as Test setup.
+    Common.Start Clean Session
+    ${account}=        API_RES.Create Account Details
+    VAR      &{TEST_ACCOUNT}        &{account}      scope=TEST
+    Navigate To Book Store Application
+
+Start Session Then Open Book Store Application
+    [Documentation]     Opens a new frest session. Then navigates to book store application. Used as Test setup.
+    Common.Start Clean Session
+    Navigate To Book Store Application
+
+Start Session And Create Account Then Open Book Store Application
+    [Documentation]     Opens a new frest session then Creates an account details and publishes $TEST_ACCOUNT
+    ...                 to test scope and creates an new account with it via API.
+    ...                 Then navigates to book store application. Used as Test setup.
+    Common.Start Clean Session
+    Create Authenticated Account Via API
+    Navigate To Book Store Application
+
+Delete Account Then Reload Profile Page And Verify Account Deletion
+    [Documentation]     Deletes account then bypasses 2 bugs: bypass the the delete account action delay after
+    ...                 confirming delete, and the frontend bug of the delete confirmation
+    ...                 window stays open after clicking ok.
+    ${del}=     Promise To    Wait For Response     matcher=**/Account/v1/User/**
+    Deleting Account
+    Wait For        ${del}
+    Reload Page And Check User Gone
+
+Reload Page And Check User Gone
+    [Documentation]     Reloads the page and check for the user not found message.
     Reload
     Verify Profile Page Loaded
-    Wait For Elements State    ${USER_NOT_FOUND_MESSAGE}    visible
+    Wait For Elements State    ${USER_NOT_FOUND_MESSAGE}   visible
+
+
+Deleting Account
+    [Documentation]     Delete account from profile page by clicking delete account button and confirm deletion.
+    Profile.Click Delete Account Button
+    Profile.Verify Delete Account Confirmation Window Visible
+    Profile.Confirm Delete
 
 Verify Account Logged Out
     [Documentation]     Verify account logged out after clicking logout button and navigating back to profile page.
@@ -160,7 +197,7 @@ Verify Logging in
 
 Click Register And Verify Account Registered
     [Documentation]     Click register button after filling user details and verify the registeration alert.
-    ${alert}=      Wait For Alert      action=accept       text=User Registered Successfully.
+    ${alert}=    Promise To       Wait For Alert      action=accept       text=User Registered Successfully.
     Click Register Button
     Wait For        ${alert}
 
@@ -205,8 +242,6 @@ Logging Out And Verify
 Creating New Account
     [Documentation]     Creates new account using freshly created fake details then goes back to login page.
     [Arguments]         ${account}
-    ${test_account}=            API_RES.Create Account Details
-    VAR        &{TEST_ACCOUNT}        &{test_account}       scope=TEST
     Navigate To Login Page
     Navigate From Login Page To Register Page
     Register.Enter First Name    ${account.first_name}
@@ -215,11 +250,6 @@ Creating New Account
     Register.Enter Password    ${account.password}
     Click Register And Verify Account Registered
 
-Deleting Account
-    [Documentation]     Delete account from profile page by clicking delete account button and confirm deletion.
-    Profile.Click Delete Account Button
-    Profile.Verify Delete Account Confirmation Window Visible
-    Profile.Confirm Delete
 
 Delete All Books
     [Documentation]     Delete All Books from profile page by clicking delete all books button and confirm deletion.
