@@ -23,7 +23,7 @@ ${DELETE_CONFIRMATION_WINDOW_OK_BUTTON}      id=closeSmallModal-ok
 
 ${PROFILE_PAGE_URL}                         https://demoqa.com/profile
 
-${BOOK_STORE_LINK}                          css=[href="/books"]
+${BOOK_STORE_LINK}                          css=li#item-4  >>  a[href="/books"]
 
 ${GO_TO_BOOK_STORE_BUTTON}                        id=gotoStore
 

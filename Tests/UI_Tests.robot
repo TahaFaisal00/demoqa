@@ -70,46 +70,51 @@ Search Bar - Empty Input Shows All Books
     [Documentation]     Use the search bar with empty value and verify that all books will remain visible
     ...                 and the UI won't crash
     [Tags]                                                           functional       ui     positive        bookstore
-    DemoqaRes.Navigate To Book Store Application
+    [Setup]     Start Session Then Open Book Store Application
     DemoqaRes.Search Book Store    ${ALL_BOOKS}    ${EMPTY}
-    DemoqaRes.Verify Search Results Contain    ${ALL_BOOKS}
+    DemoqaRes.Verify Search Results Contain    @{ALL_BOOKS}
+    [Teardown]         Common.End Session
 
 Search Bar - Invalid Input Shows No Books
     [Documentation]     use the search bar with a non existent book name and verify that no book is shown.
     [Tags]                                                           functional       ui     negative        bookstore
-    DemoqaRes.Navigate To Book Store Application
+    [Setup]     Start Session Then Open Book Store Application
     DemoqaRes.Search Book Store       ${ALL_BOOKS}   ${NONEXISTENT_BOOK_SEARCH}
     DemoqaRes.Verify No Books Found
+    [Teardown]         Common.End Session
 
 Search Bar - Search By Book Title
     [Documentation]     Use the search bar with an existing book title and verify that the book is shown
     ...                 and all the others books are not visible.
     [Tags]                                                           functional       ui     positive        bookstore
-    DemoqaRes.Navigate To Book Store Application
+    [Setup]     Start Session Then Open Book Store Application
     DemoqaRes.Search Book Store                    ${ALL_BOOKS}    ${GIT_POCKET_GUIDE_BOOK_DETAILS.title}
     DemoqaRes.Verify Search Results Contain    ${GIT_POCKET_GUIDE_BOOK}
     DemoqaRes.Verify Search Results Not Contain    ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
     ...                                            ${SPEAKING_JAVASCRIPT_BOOK}    ${UNDERSTANDING_ECMASCRIPT_BOOK}
+    [Teardown]         Common.End Session
 
 Search Bar - Search By Author Name
     [Documentation]     Use the search bar with an existing book author and verify that the book is shown
     ...                 and all the others books are not visible.
     [Tags]                                                           functional       ui     positive        bookstore
-    DemoqaRes.Navigate To Book Store Application
-    DemoqaRes.Search Book Store                    ${ALL_BOOKS}    ${SPEAKING_JAVASCRIPT_BOOK.author}
+    [Setup]     Start Session Then Open Book Store Application
+    DemoqaRes.Search Book Store                    ${ALL_BOOKS}    ${SPEAKING_JAVASCRIPT_BOOK_DETAILS.author}
     DemoqaRes.Verify Search Results Contain       ${SPEAKING_JAVASCRIPT_BOOK}
     DemoqaRes.Verify Search Results Not Contain    ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
     ...                                            ${GIT_POCKET_GUIDE_BOOK}   ${UNDERSTANDING_ECMASCRIPT_BOOK}
+    [Teardown]         Common.End Session
 
 Search Bar - Search by Publisher Name
     [Documentation]     Use the search bar with an existing book publisher and verify that the book is shown
     ...                 and all the others books are not visible.
     [Tags]                                                           functional       ui     positive        bookstore
-    DemoqaRes.Navigate To Book Store Application
-    DemoqaRes.Search Book Store                    ${ALL_BOOKS}    ${GIT_POCKET_GUIDE_BOOK.publisher}
+    [Setup]     Start Session Then Open Book Store Application
+    DemoqaRes.Search Book Store                    ${ALL_BOOKS}    ${GIT_POCKET_GUIDE_BOOK_DETAILS.publisher}
     DemoqaRes.Verify Search Results Contain       ${GIT_POCKET_GUIDE_BOOK}       ${LEARNING_JAVASCRIPT_DESIGN_PATTERNS_BOOK}
     ...                                            ${SPEAKING_JAVASCRIPT_BOOK}
     DemoqaRes.Verify Search Results Not Contain    ${UNDERSTANDING_ECMASCRIPT_BOOK}
+    [Teardown]         Common.End Session
 
 Books In Book Store Does Not Retain Their Own Images When Their Position Changed
     [Documentation]     Verify the first and second book images, then search for the second book to hide the

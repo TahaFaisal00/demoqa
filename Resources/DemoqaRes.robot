@@ -135,6 +135,7 @@ Search Book Store
 
 Verify No Books Found
     [Documentation]     verify that no books are shown when the search in invalid.
+    Wait For Elements State    ${BOOK_ROW}    detached
     Get Element Count    ${BOOK_ROW}    ==      0
 
 Verify Books Loaded
@@ -203,7 +204,7 @@ Click Register And Verify Account Registered
 
 Navigate To Book Store Application
     [Documentation]     Navigates from main page to book store application and verify its page loaded.
-    ToolsQA.Click Book Store Link
+    ToolsQA.Click Book Store Application Link
     BookStore.Verify BookStore Page Loaded
 
 Navigate To Login Page
