@@ -1,8 +1,5 @@
 *** Settings ***
-Resource                                                             ../Resources/Common.robot
 Resource                                                             ../Resources/DemoqaRes.robot
-Resource                                                             ../Resources/API_RES.robot
-
 Suite Setup                                                          Run Keywords         API_RES.Open Session      AND       Common.Launch Suite Browser
 Suite Teardown                                                       Common.Shutdown Browser
 #robot -d Results  Tests/UI_Tests.robot
