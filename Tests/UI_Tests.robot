@@ -26,7 +26,7 @@ Log In And Log Out
     DemoqaRes.Navigate To Book Store Application
     DemoqaRes.Logging In And Verify                                  ${TEST_ACCOUNT}
     DemoqaRes.Logging Out And Verify
-    [Teardown]      API_RES.Delete Account Via API
+    [Teardown]       Run Keywords       API_RES.Delete Account Via API          Common.End Session
 
 Log In And Delete Account
     [Documentation]     Creating new account Via API using freshly created data, because
@@ -42,7 +42,7 @@ Log In And Delete Account
     DemoqaRes.Navigate To Login Page
     DemoqaRes.Logging Out And Verify
     DemoqaRes.Verify Login Fails                                     ${TEST_ACCOUNT}
-    [Teardown]      Run Keyword And Ignore Error         API_RES.Autheticate Account And Delete It Via API
+    [Teardown]      Run Keyword And Ignore Error         DemoqaRes.Delete Authenticated account And Close Session
 
 Delete Account Does Not Close Confirmation Window
     [Documentation]     Creating new account Via API using freshly created data, And Signing in then deleting the account
@@ -52,7 +52,7 @@ Delete Account Does Not Close Confirmation Window
     DemoqaRes.Logging In And Verify                                  ${TEST_ACCOUNT}
     DemoqaRes.Deleting Account
     DemoqaRes.Verify Delete Account Confirmation Window Persists After Confirm
-    [Teardown]      Run Keyword And Ignore Error         API_RES.Autheticate Account And Delete It Via API
+    [Teardown]      Run Keyword And Ignore Error         DemoqaRes.Delete Authenticated account And Close Session
 
 Delete Account Does Not automatically Log Out The User
     [Documentation]     Creating new account Via API using freshly created data, And Signing in then deleting the account
@@ -64,7 +64,7 @@ Delete Account Does Not automatically Log Out The User
     DemoqaRes.Delete Account Then Reload Profile Page And Verify Account Deletion
     DemoqaRes.Navigate To Login Page
     DemoqaRes.Verify Account Still Signed In After Deletion
-    [Teardown]      Run Keyword And Ignore Error         API_RES.Autheticate Account And Delete It Via API
+    [Teardown]      Run Keyword And Ignore Error         DemoqaRes.Delete Authenticated account And Close Session
 
 Search Bar - Empty Input Shows All Books
     [Documentation]     Use the search bar with empty value and verify that all books will remain visible

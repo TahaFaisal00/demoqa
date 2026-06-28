@@ -106,7 +106,7 @@ Create Authenticated Account And List Of Books Via API
     Generate Token Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${SPEAKING_JAVA_SCRIPT_ISBN}
 
-Autheticate Account And Delete It Via API
+Authenticate Account And Delete It Via API
     [Documentation]     Generates token for the unauthorized account then delete it. Used as test teardown.
     Generate Token Via API
     Delete Account Via API

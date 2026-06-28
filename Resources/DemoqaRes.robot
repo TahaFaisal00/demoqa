@@ -12,6 +12,12 @@ Resource                                          API_RES.robot
 
 Resource                                          UI_TestData.robot
 *** Keywords ***
+Delete Authenticated account And Close Session
+    [Documentation]     Authenticates the account then deletes it via API then end the session by Closing context.
+    ...                 Used as test teardown.
+    API_RES.Authenticate Account And Delete It Via API
+    Common.End Session
+
 Start Session And Create Account Details Then Open Book Store Application
     [Documentation]     Opens a new frest session then Creates an account details and publishes $TEST_ACCOUNT
     ...                 to test scope. Then navigates to book store application. Used as Test setup.
