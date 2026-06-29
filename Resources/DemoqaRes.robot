@@ -50,8 +50,8 @@ Delete Account Then Reload Profile Page And Verify Account Deletion
 Reload Page And Check User Gone
     [Documentation]     Reloads the page and check for the user not found message.
     Reload
-    Verify Profile Page Loaded
-    Wait For Elements State    ${USER_NOT_FOUND_MESSAGE}   visible
+    Profile.Verify Profile Page Loaded
+    Profile.Verify User Not Found Message
 
 
 Deleting Account
@@ -62,22 +62,22 @@ Deleting Account
 
 Verify Account Logged Out
     [Documentation]     Verify account logged out after clicking logout button and navigating back to profile page.
-    Verify Login Page Loaded
-    Click Profile Page Link
-    Wait For Elements State    ${NOT_LOGGED_IN_MESSAGE}      visible
+    LogIn.Verify Login Page Loaded
+    BookStore.Click Profile Page Link
+    Profile.Verify User Logged Out Message
 
 Verify Book Not In Book Collection
     [Documentation]     Verify deleted book is removed from the book collection in profile page.
     [Arguments]                         @{books}
     FOR    ${book}    IN    @{books}
-        Verify Book Not Loaded          ${book}
+        BookStore.Verify Book Not Loaded          ${book}
     END
 
 Delete Single Book
     [Documentation]     Delete a book by clicking the delete icon next to the book and confirm deletion
     ...                 then close the alert.
     [Arguments]     ${book}
-    Click Delete Book Button            ${book}
+    Profile.Click Delete Book Button            ${book}
     Confirm Delete Book And Verify Book Deleted
 
 Confirm Delete Book And Verify Book Deleted
@@ -92,7 +92,7 @@ Verify Book In Book Collection
     [Documentation]     Verify added book exists in the book collection in profile page
     [Arguments]                         @{books}
     FOR    ${book}    IN    @{books}
-        Verify Book Loaded          ${book}
+        BookStore.Verify Book Loaded          ${book}
     END
 
 Verify Book Image
@@ -105,22 +105,22 @@ Verify Book Image
 Open Book Page
     [Documentation]
     [Arguments]     ${book}
-    Open Book Details Page      ${book}
-    Verify Book Page Loaded     ${book}
+    BookStore.Open Book Details Page      ${book}
+    BookStore.Verify Book Page Loaded     ${book}
 
 Verify Book Details
     [Documentation]     Verify book details including ISBN, Sub Title, Author and Publisher in details page.
     [Arguments]                   ${book_details_locator}               ${book}
-    Get Book Details Field    ${book_details_locator.isbn}          ==   ${book.isbn}
-    Get Book Details Field    ${book_details_locator.sub_title}     ==   ${book.sub_title}
-    Get Book Details Field    ${book_details_locator.author}        ==   ${book.author}
-    Get Book Details Field    ${book_details_locator.publisher}     ==   ${book.publisher}
+    BookStore.Get Book Details Field    ${book_details_locator.isbn}          ==   ${book.isbn}
+    BookStore.Get Book Details Field    ${book_details_locator.sub_title}     ==   ${book.sub_title}
+    BookStore.Get Book Details Field    ${book_details_locator.author}        ==   ${book.author}
+    BookStore.Get Book Details Field    ${book_details_locator.publisher}     ==   ${book.publisher}
 
 
 Click Add Book To Collection And Verify Book Added
     [Documentation]     Click Add book to collection button in book details page and verify the book added alert.
     ${alert}=      Promise To         Wait For Alert           action=accept      text=Book added to your collection.
-    Click Add To Your Collection Button
+    BookStore.Click Add To Your Collection Button
     Wait For        ${alert}
 
 Search Book Store
@@ -138,21 +138,21 @@ Verify Books Loaded
     [Documentation]     Verify all books are visible in the book store page.
     [Arguments]                                ${books}
     FOR    ${book}    IN    @{books}
-        Verify Book Loaded          ${book}
+        BookStore.Verify Book Loaded          ${book}
     END
 
 Verify Search Results Contain
     [Documentation]     verify the search result by asserting the correct book is visible
     [Arguments]                                @{books}
     FOR    ${book}    IN    @{books}
-        Verify Book Loaded          ${book}
+        BookStore.Verify Book Loaded          ${book}
     END
 
 Verify Search Results Not Contain
     [Documentation]     verify the search result by asserting the incorrect books are hidden
     [Arguments]                                @{books}
     FOR    ${book}    IN    @{books}
-        Verify Book Not Loaded      ${book}
+        BookStore.Verify Book Not Loaded      ${book}
     END
 
 Verify Login Error
@@ -171,23 +171,21 @@ Verify Login Error
 
 Verify User Name Field Required
     [Documentation]     Verify that user name field gets 'is-invalid' state when logging in without user name
-    Wait For Elements State    ${EMPTY_USERNAME_FIELD_ERROR}        visible
+    LogIn.Verify Empty User Name Field Invalid State
 
 Verify Password Field Required
     [Documentation]     Verify that password field gets 'is-invalid' state when logging in without password
-    Wait For Elements State    ${EMPTY_PASSWORD_FIELD_ERROR}        visible
+    LogIn.Verify Empty Password Field Invalid State
 
 Verify Incorrect Credentials
     [Documentation]     Verify the error message that appear when trying to log in with credentials of non existent account
-    Wait For Elements State    ${INVALID_USERNAME_OR_PASSWORD_ERROR}    visible
+    LogIn.Verify Invalid Log In Message
 
 Verify Logging in
     [Documentation]     Verify the user is logged in after entering a valid account credentials
     ...     by asserting the profile username matches
    [Arguments]                                       ${user_name}
-   Wait For Elements State                           ${LOGGED_IN_USER_NAME}          visible
-   Get Text                                          ${LOGGED_IN_USER_NAME}    ==    ${user_name}
-
+   Profile.Verify Account Logged In                          ${user_name}
 
 Navigate To Book Store Application
     [Documentation]     Navigates from main page to book store application and verify its page loaded.
@@ -211,8 +209,8 @@ Navigate To Profile Page
 
 Navigate From Book Details To Book Store
     [Documentation]     Navigate back from book details page to book store
-    Click Back To Book Store Button
-    Verify BookStore Page Loaded
+    BookStore.Click Back To Book Store Button
+    BookStore.Verify BookStore Page Loaded
 
 Logging In And Verify
     [Documentation]     Navigate to login page and enter valid credentials and log in and verify it.
@@ -230,12 +228,12 @@ Logging Out And Verify
 
 Verify Delete Account Confirmation Window Persists After Confirm
     [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
-    Wait For Elements State    ${DELETE_ACCOUNT_CONFIRMATION_WINDOW}      visible
+    Profile.Verify Delete Account Confirmation Window Visible
 
 
 Verify Account Still Signed In After Deletion
     [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
-    Wait For Elements State    ${ALREADY_LOGGED_IN_MESSAGE}     visible
+    LogIn.Verify Account Already Logged In Message
 
 Verify Login Fails
     [Documentation]     Navigate to login page, and Log in with Invalid credentials and verify the error message or

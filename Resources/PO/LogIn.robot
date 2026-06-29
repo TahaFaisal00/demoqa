@@ -35,9 +35,17 @@ Click Login In Login Page
 Click New User Button
    Click                                             ${NEW_USER_BUTTON}
 
+Verify Empty User Name Field Invalid State
+    Wait For Elements State    ${EMPTY_USERNAME_FIELD_ERROR}        visible
 
+Verify Empty Password Field Invalid State
+    Wait For Elements State    ${EMPTY_PASSWORD_FIELD_ERROR}        visible
 
+Verify Invalid Log In Message
+    Wait For Elements State    ${INVALID_USERNAME_OR_PASSWORD_ERROR}    visible
 
+Verify Account Already Logged In Message
+    Wait For Elements State    ${ALREADY_LOGGED_IN_MESSAGE}     visible
 
 
 

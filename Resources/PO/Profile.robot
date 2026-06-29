@@ -65,3 +65,15 @@ Verify Delete Book Confirmation Window Closed
 
 Click Login Link
     Click    ${LOGIN_LINK}
+
+Verify User Not Found Message
+    Wait For Elements State    ${USER_NOT_FOUND_MESSAGE}   visible
+
+Verify User Logged Out Message
+    Wait For Elements State    ${NOT_LOGGED_IN_MESSAGE}      visible
+
+Verify Account Logged In
+   [Arguments]                                       ${user_name}
+   Wait For Elements State                           ${LOGGED_IN_USER_NAME}          visible
+   Get Text                                          ${LOGGED_IN_USER_NAME}    ==    ${user_name}
+
