@@ -294,8 +294,8 @@ Build Delete List Of Books Headers
 
 Send Delete List Of Books Request
     [Arguments]      ${params}           ${headers}
-    ${response}=     DELETE On Session      ${ALIAS}            ${BOOKSTORE_BOOKS_API}       params=${params}        headers=${headers}
-    RETURN
+    ${response}=     DELETE On Session      ${ALIAS}            ${BOOKSTORE_BOOKS_API}       params=${params}        headers=${headers}      expected_status=anything
+    RETURN      ${response}
 
 Delete List Of Books Via API
     [Documentation]     Deletes the list of book from an authorized user by user ID.
