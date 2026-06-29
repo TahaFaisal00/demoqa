@@ -7,7 +7,7 @@ GET Bookstore Books - Returns 200
     [Documentation]     Gets all the books with their details from the bookstore. Verifies response code and message.
     [Tags]      functional      api     get      positive        bookstore
     ${response}=        Get Bookstore Books Via API
-    Verify Resposne Code    ${OK_CODE}
+    Verify Response Code    ${OK_CODE}
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_BOOKS}
 
 
@@ -17,7 +17,7 @@ Create List Of Books - Valid Fields - Returns 201
     [Tags]      functional      api     post        positive        bookstore
     [Setup]     Create Authenticated Account Via API
     ${response}=        Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
-    Verify Resposne Code    ${CREATED_CODE}
+    Verify Response Code    ${CREATED_CODE}
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_BOOKS}
     [Teardown]      Delete Account Via API
 
@@ -27,7 +27,7 @@ Create List Of Books - Unauthorized - Returns 401
     [Tags]      functional      api     post        negative        bookstore
     [Setup]     Create Account Via API
     ${response}=        Attempt Create List Of Books Without Authorization Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
-    Verify Resposne Code    ${NOT_AUTHORIZED_CODE}
+    Verify Response Code    ${NOT_AUTHORIZED_CODE}
     Verify Response Message    ${response}    ${NOT_AUTHORIZED_MESSAGE}
     Generate Token Via API
     [Teardown]      Delete Account Via API
@@ -39,7 +39,7 @@ Create List Of Books - Missing Fields - Returns 400
     [Tags]      bug      api     post        negative        bookstore
     [Setup]     Create Authenticated Account Via API
     ${response}=        Attempt Create List Of Books With Missing Field Via API
-    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Code    ${BAD_REQUEST_CODE}
     Verify Response Headers Content type      ${response}        ${CONTENT_TYPE_TEXT_HTML}
     [Teardown]      Delete Account Via API
 
@@ -49,7 +49,7 @@ Create List Of Books - Invalid Fields - Returns 400
     [Tags]      functional      api     post        negative        bookstore
     [Setup]     Create Authenticated Account Via API
     ${response}=        Create List Of Books Via API        ${INVALID_ISBN}
-    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Code    ${BAD_REQUEST_CODE}
     Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}
     [Teardown]      Delete Account Via API
 
@@ -61,7 +61,7 @@ Delete List Of Books - Valid User ID - Return 204
     [Tags]      functional      api     delete        positive        bookstore
     [Setup]     Create Authenticated Account And List Of Books Via API
     ${response}=      Delete List Of Books Via API
-    Verify Resposne Code    ${NO_CONTENT_CODE}
+    Verify Response Code    ${NO_CONTENT_CODE}
     [Teardown]      Delete Account Via API
 
 Delete List Of Books - Non Existent Books List - Return 204
@@ -70,7 +70,7 @@ Delete List Of Books - Non Existent Books List - Return 204
     [Tags]      functional      api     delete        negative        bookstore
     [Setup]     Create Authenticated Account Via API
     ${response}=      Delete List Of Books Via API
-    Verify Resposne Code    ${NO_CONTENT_CODE}
+    Verify Response Code    ${NO_CONTENT_CODE}
     [Teardown]      Delete Account Via API
 
 Delete List Of Books - Already Deleted Books List - Return 204
@@ -79,7 +79,7 @@ Delete List Of Books - Already Deleted Books List - Return 204
     [Tags]     functional      api     delete        negative        bookstore
     [Setup]     Create Authenticated Account And List Of Books Via API
     ${response}=      Delete List Of Books Via API
-    Verify Resposne Code    ${NO_CONTENT_CODE}
+    Verify Response Code    ${NO_CONTENT_CODE}
     [Teardown]      Delete Account Via API
 
 
@@ -87,15 +87,15 @@ GET Book Details - Valid ISBN - Returns 200
     [Documentation]     Gets a specific book details with Valid ISBN. Verifies Response code and message.
     [Tags]     functional      api     get        positive        bookstore
     ${response}=        Get Book Details Via API        ${GIT_POCKET_GUIDE_ISBN}
-    Verify Resposne Code    ${OK_CODE}
+    Verify Response Code    ${OK_CODE}
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_ISBN}
     Verify Response Field Not Empty    ${response}    ${RESPONSE_FIELD_TITLE}
 
 GET Book Details - Invalid ISBN - Returns 400
     [Documentation]     Gets a specific book details with Invalid ISBN. Verifies Response code and message.
-    [Tags]     functional      api     get        neagtive        bookstore
+    [Tags]     functional      api     get        negative         bookstore
     ${response}=        Get Book Details Via API            ${INVALID_ISBN}
-    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Code    ${BAD_REQUEST_CODE}
     Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}
 
 GET Book Details - Missing ISBN - Returns 500
@@ -105,7 +105,7 @@ GET Book Details - Missing ISBN - Returns 500
     ...                 is leaking internal paths, Sequelize, MySQL.
     [Tags]     bug      api     get        negative        bookstore       #500 instead of 400    #: Server exposes internal stack trace and file paths in response body — security issue
     ${response}=        Attempt Get Book Details With Missing ISBN Via API
-    Verify Resposne Code    ${INTERNAL_SERVER_ERROR_CODE}
+    Verify Response Code    ${INTERNAL_SERVER_ERROR_CODE}
     Verify Response Headers Content type      ${response}        ${CONTENT_TYPE_TEXT_HTML}
 
 
@@ -116,7 +116,7 @@ Delete Book From List Of Books - Valid Fields - Return 204
     [Tags]    bug      api     delete        positive        bookstore
     [Setup]     Create Authenticated Account And List Of Books Via API
     ${response}=     Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
-    Verify Resposne Code    ${NO_CONTENT_CODE}
+    Verify Response Code    ${NO_CONTENT_CODE}
     [Teardown]      Delete Account Via API
 
 Delete Book From List Of Books - Non Existent Book - Return 400
@@ -126,7 +126,7 @@ Delete Book From List Of Books - Non Existent Book - Return 400
     [Tags]      bug      api     delete        negative        bookstore
     [Setup]     Create Authenticated Account Via API
     ${response}=     Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
-    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Code    ${BAD_REQUEST_CODE}
     Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_USER_COLLECTION_MESSAGE}
     [Teardown]      Delete Account Via API
 
@@ -138,7 +138,7 @@ Delete Book From List Of Books - Already Deleted Book - Return 400
     [Setup]     Create Authenticated Account And List Of Books Via API
     Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
     ${response}=     Delete Book From List Via API      ${GIT_POCKET_GUIDE_ISBN}
-    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Code    ${BAD_REQUEST_CODE}
     Verify Response Message    ${response}    ${BOOK_ISBN_NOT_AVAILABLE_IN_USER_COLLECTION_MESSAGE}
     [Teardown]      Delete Account Via API
 
@@ -150,7 +150,7 @@ Update a Book by Replacing it with Another by ISBN - Returns 200 with Valid ISBN
     [Setup]     Create Authenticated Account Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
     ${response}=        Update Book By Another Via API   ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}        ${SPEAKING_JAVA_SCRIPT_ISBN}
-    Verify Resposne Code    ${OK_CODE}
+    Verify Response Code    ${OK_CODE}
     Verify Response Field Not Empty    ${response}        ${RESPONSE_FIELD_BOOKS}
     [Teardown]      Delete Account Via API
 
@@ -161,7 +161,7 @@ Update a Book by Replacing it with Another by ISBN - Returns 400 with Valid ISBN
     [Setup]     Create Authenticated Account Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
     ${response}=        Update Book By Another Via API   ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}        ${INVALID_ISBN}
-    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Code    ${BAD_REQUEST_CODE}
     Verify Response Message    ${response}        ${BOOK_ISBN_NOT_AVAILABLE_IN_BOOK_COLLECTION_MESSAGE}
     [Teardown]      Delete Account Via API
 
@@ -174,7 +174,7 @@ Update a Book by Replacing it with Another by ISBN - Returns 500 with Missing IS
     [Setup]     Create Authenticated Account Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
     ${response}=        Attempt Update Book By Another Without New Book ISBN Via API         ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
-    Verify Resposne Code    ${BAD_REQUEST_CODE}
+    Verify Response Code    ${BAD_REQUEST_CODE}
     Verify Response Headers Content type      ${response}        ${CONTENT_TYPE_TEXT_HTML}
     [Teardown]      Delete Account Via API
 
@@ -186,6 +186,6 @@ Update a Book by Replacing it with Another by ISBN - Returns 200 with ISBN of an
     [Setup]     Create Authenticated Account Via API
     Create List Of Books Via API        ${GIT_POCKET_GUIDE_ISBN}        ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}
     ${response}=        Update Book By Another Via API   ${LEARNING_JAVASCRIPT_DESGIN_PATTERNS_ISBN}        ${GIT_POCKET_GUIDE_ISBN}
-    Verify Resposne Code    ${OK_CODE}
+    Verify Response Code    ${OK_CODE}
     Verify Response Field Not Empty    ${response}        ${RESPONSE_FIELD_BOOKS}
     [Teardown]      Delete Account Via API

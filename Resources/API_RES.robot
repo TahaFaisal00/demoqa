@@ -170,8 +170,8 @@ Attempt Check Account Authorization With Invalid Fields Via API
 
 Send Get Account Details Request
     [Arguments]         ${headers}      ${uuid}
-    ${get_account_details_apia_with_uuid}=      Format String    ${GET_ACCOUNT_DETAILS_API}     ${uuid}
-    ${response}=        GET On Session     ${ALIAS}       ${get_account_details_apia_with_uuid}        headers=${headers}       expected_status=anything
+    ${get_account_details_api_with_uuid}=      Format String    ${GET_ACCOUNT_DETAILS_API}     ${uuid}
+    ${response}=        GET On Session     ${ALIAS}       ${get_account_details_api_with_uuid}        headers=${headers}       expected_status=anything
     RETURN      ${response}
 
 Get Account Details Via API
@@ -186,7 +186,7 @@ Attempt Get Account Details With Invalid Account ID Via API
     ${response}=        Send Get Account Details Request        ${headers}         ${INVALID_ACCOUNT_ID}
     RETURN      ${response}
 
-Verify Resposne Code
+Verify Response Code
     [Documentation]     Asserts the API's response code equals the expected value.
     [Arguments]         ${response_code}
     Status Should Be    expected_status=${response_code}
@@ -202,7 +202,7 @@ Verify Response Message Contains
     Should Contain    ${response.json()}[message]    ${message}
 
 Verify Response Field Not Empty
-    [Documentation]     Asserts the given field in the response body is not message.
+    [Documentation]     Asserts the given field in the response body is not empty.
     [Arguments]            ${response}      ${field}
     Should Not Be Empty    ${response.json()}[${field}]
 
