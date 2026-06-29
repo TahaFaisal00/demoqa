@@ -81,3 +81,20 @@ Click Back To Book Store Button
 Get Book Details Field
     [Arguments]     ${book_details_field_locator}       ${assertion_operator}=${None}    ${assertion_expected}=${None}
     RETURN      Get Text      ${book_details_field_locator}         ${assertion_operator}   ${assertion_expected}
+
+Verify Book Loaded
+    [Arguments]     ${book}
+    ${book_locator}=        Format String    ${BOOK_LOCATOR_BASE}           ${book}
+    Wait For Elements State    ${book_locator}      visible
+
+Verify Book Not Loaded
+    [Arguments]     ${book}
+    ${book_locator}=        Format String    ${BOOK_LOCATOR_BASE}           ${book}
+    Wait For Elements State    ${book_locator}      hidden
+
+
+
+
+
+
+

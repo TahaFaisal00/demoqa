@@ -71,8 +71,7 @@ Verify Book Not In Book Collection
     [Documentation]     Verify deleted book is removed from the book collection in profile page.
     [Arguments]                         @{books}
     FOR    ${book}    IN    @{books}
-        ${book_location}=        Format String      ${BOOK_LOCATOR_BASE}        ${book}
-        Wait For Elements State    ${book_location}     hidden
+        Verify Book Not Loaded          ${book}
     END
 
 Delete Single Book
@@ -94,8 +93,7 @@ Verify Book In Book Collection
     [Documentation]     Verify added book exists in the book collection in profile page
     [Arguments]                         @{books}
     FOR    ${book}    IN    @{books}
-        ${book_location}=        Format String      ${BOOK_LOCATOR_BASE}        ${book}
-        Wait For Elements State    ${book_location}     visible
+        Verify Book Loaded          ${book}
     END
 
 Verify Book Image
@@ -148,24 +146,21 @@ Verify Books Loaded
     [Documentation]     Verify all books are visible in the book store page.
     [Arguments]                                ${books}
     FOR    ${book}    IN    @{books}
-        ${book_locator}=        Format String    ${BOOK_LOCATOR_BASE}           ${book}
-        Wait For Elements State    ${book_locator}      visible
+        Verify Book Loaded          ${book}
     END
 
 Verify Search Results Contain
     [Documentation]     verify the search result by asserting the correct book is visible
     [Arguments]                                @{books}
     FOR    ${book}    IN    @{books}
-        ${book_locator}=        Format String    ${BOOK_LOCATOR_BASE}           ${book}
-        Wait For Elements State    ${book_locator}      visible
+        Verify Book Loaded          ${book}
     END
 
 Verify Search Results Not Contain
     [Documentation]     verify the search result by asserting the incorrect books are hidden
     [Arguments]                                @{books}
     FOR    ${book}    IN    @{books}
-        ${book_locator}=        Format String    ${BOOK_LOCATOR_BASE}           ${book}
-        Wait For Elements State    ${book_locator}      hidden
+        Verify Book Not Loaded      ${book}
     END
 
 Verify Login Error
