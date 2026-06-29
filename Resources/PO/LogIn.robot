@@ -15,7 +15,6 @@ ${EMPTY_USERNAME_FIELD_ERROR}                           css=#userName.is-invalid
 ${EMPTY_PASSWORD_FIELD_ERROR}                           css=#password.is-invalid
 ${INVALID_USERNAME_OR_PASSWORD_ERROR}                   text="Invalid username or password!"
 
-${ALREADY_LOGGED_IN_MESSAGE}                            id=loading-label
 
 ${LOG_OUT_BUTTON_LOGIN_PAGE}                           css=button#submit:has-text("Log out")
 *** Keywords ***
@@ -45,8 +44,6 @@ Verify Empty Password Field Invalid State
 Verify Invalid Log In Message
     Wait For Elements State    ${INVALID_USERNAME_OR_PASSWORD_ERROR}    visible
 
-Verify Account Already Logged In Message
-    Wait For Elements State    ${ALREADY_LOGGED_IN_MESSAGE}     visible
 
 Click Logout Button
     Click                       ${LOG_OUT_BUTTON_LOGIN_PAGE}

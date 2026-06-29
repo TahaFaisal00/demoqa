@@ -232,11 +232,6 @@ Logging Out From Deleted Account And Verify
     LogIn.Click Logout Button
     Verify Account Logged Out
 
-
-Verify Account Still Signed In After Deletion
-    [Documentation]     Used to verify the bug of UI doesn't update and the confirmation windows stays on screen.
-    LogIn.Verify Account Already Logged In Message
-
 Verify Login Fails
     [Documentation]     Navigate to login page, and Log in with Invalid credentials and verify the error message or
     ...                 the fields attributes.
