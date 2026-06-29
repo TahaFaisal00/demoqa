@@ -25,15 +25,4 @@ pipeline {
         }
     }
 
-    post {
-        always {
-            // Allure report on the build page (needs plugin + configured tool)
-            allure includeProperties: false,
-                   jdk: '',
-                   results: [[path: 'allure-results']]
-
-            // keep Robot's native output too
-            archiveArtifacts artifacts: 'log/**', allowEmptyArchive: true
-        }
-    }
 }
