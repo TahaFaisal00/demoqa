@@ -14,10 +14,8 @@ pipeline {
 
         stage('Run Robot Tests') {
             steps {
-                // call the venv's robot by full path — no activation needed
                 bat """
                     "%VENV%\\robot.exe" ^
-                        --listener allure_robotframework:allure-results ^
                         -d log ^
                         Tests
                 """
@@ -25,4 +23,16 @@ pipeline {
         }
     }
 
+    post {
+        always {
+            robot outputPath: 'log',
+                  outputFileName: 'output.xml',
+                  logFileName: 'log.html',
+                  reportFileName: 'report.html',
+                  passThreshold: 100.0,
+                  unstableThreshold: 0.0
+
+            archiveArtifacts artifacts: 'log/**', allowEmptyArchive: true
+        }
+    }
 }
