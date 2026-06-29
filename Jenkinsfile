@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        VENV = 'C:\\development\\demoqa\\.venv\\Scripts'
-    }
-
     stages {
         stage('Checkout') {
             steps {
@@ -12,26 +8,37 @@ pipeline {
             }
         }
 
-        stage('Run Robot Tests') {
+        stage('Setup venv') {
             steps {
                 bat """
-                    "%VENV%\\robot.exe" ^
-                        -d log ^
-                        Tests
+                    python -m venv .venv
+                    ".venv\\Scripts\\python.exe" -m pip install --upgrade pip
+                    ".venv\\Scripts\\pip.exe" install -r requirements.txt
+                    ".venv\\Scripts\\rfbrowser.exe" init
                 """
+            }
+        }
+
+        stage('Run Robot Tests') {
+            steps {
+                bat """ ".venv\\Scripts\\robot.exe" -d log Tests """
+            }
+        }
+
+        stage('Publish Results') {
+            steps {
+                robot outputPath: 'log',
+                      outputFileName: 'output.xml',
+                      logFileName: 'log.html',
+                      reportFileName: 'report.html',
+                      passThreshold: 100.0,
+                      unstableThreshold: 0.0
             }
         }
     }
 
     post {
         always {
-            robot outputPath: 'log',
-                  outputFileName: 'output.xml',
-                  logFileName: 'log.html',
-                  reportFileName: 'report.html',
-                  passThreshold: 100.0,
-                  unstableThreshold: 0.0
-
             archiveArtifacts artifacts: 'log/**', allowEmptyArchive: true
         }
     }
